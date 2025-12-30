@@ -1,0 +1,20 @@
+CREATE TABLE `assessmentResponses` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`email` varchar(320) NOT NULL,
+	`name` varchar(255),
+	`route` enum('no-code','hybrid','custom') NOT NULL,
+	`complexity` enum('low','medium','high') NOT NULL,
+	`devRole` varchar(255),
+	`projectType` varchar(255),
+	`timeline` varchar(100),
+	`budgetRange` varchar(100),
+	`topFeatures` text,
+	`responses` text NOT NULL,
+	`completedAt` timestamp NOT NULL DEFAULT (now()),
+	`webhookSent` int NOT NULL DEFAULT 0,
+	`eventType` enum('paid','free','waitlist'),
+	`stripeSessionId` varchar(255),
+	`createdAt` timestamp NOT NULL DEFAULT (now()),
+	`updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `assessmentResponses_id` PRIMARY KEY(`id`)
+);

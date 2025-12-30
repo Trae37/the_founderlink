@@ -1,0 +1,11 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Large square with broken side (right side broken) -->
+  <path d="M 30 30 L 120 30 L 120 40 L 130 40 L 130 30 L 130 170 L 30 170 L 30 30" 
+        fill="none" stroke="#22C55E" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Connector line from break to small square -->
+  <line x1="130" y1="85" x2="160" y2="85" stroke="#22C55E" stroke-width="12" stroke-linecap="round"/>
+  
+  <!-- Small square at end of connector -->
+  <rect x="160" y="70" width="30" height="30" fill="none" stroke="#22C55E" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

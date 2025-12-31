@@ -734,7 +734,7 @@ ${JSON.stringify(responses, null, 2)}
 Return the enhanced brief maintaining the same markdown structure. Every enhancement should be traceable to something the founder actually said.`;
 
     const message = await this.getAnthropic().messages.create({
-      model: "claude-3-5-sonnet-20241022",
+      model: "claude-3-5-sonnet-latest",
       max_tokens: 2500,
       messages: [{ role: "user", content: prompt }],
     });
@@ -804,7 +804,7 @@ ${JSON.stringify(responses, null, 2)}
 Return the enhanced playbook maintaining the same markdown structure. Every recommendation should be specific to THIS founder's situation based on their actual answers.`;
 
     const message = await this.getAnthropic().messages.create({
-      model: "claude-3-5-sonnet-20241022",
+      model: "claude-3-5-sonnet-latest",
       max_tokens: 2500,
       messages: [{ role: "user", content: prompt }],
     });
@@ -885,7 +885,7 @@ ${JSON.stringify(responses, null, 2)}
 Return the enhanced PRD maintaining the same markdown structure. A developer should finish reading this knowing exactly what the founder wants and why, with enough detail to start building confidently.`;
 
     const message = await this.getAnthropic().messages.create({
-      model: "claude-3-5-sonnet-20241022",
+      model: "claude-3-5-sonnet-latest",
       max_tokens: 3000,
       messages: [{ role: "user", content: prompt }],
     });
@@ -955,7 +955,7 @@ ${JSON.stringify(responses, null, 2)}
 Return the enhanced agreement with SPECIFIC numbers from their responses - actual dollar amounts, actual features, actual timeline. The founder should see their exact project reflected in this document.`;
 
     const message = await this.getAnthropic().messages.create({
-      model: "claude-3-5-sonnet-20241022",
+      model: "claude-3-5-sonnet-latest",
       max_tokens: 2500,
       messages: [{ role: "user", content: prompt }],
     });

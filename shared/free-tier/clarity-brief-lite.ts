@@ -17,7 +17,7 @@ const DEFAULT_TEMPLATE = `**PROJECT CLARITY BRIEF**
 {{solution}}
 
 **4. TARGET USER**
-[To be defined - describe your primary user, their role, and context]
+{{targetUser}}
 
 **5. SUCCESS CRITERIA**
 {{successGoal}} (Primary metric: {{successMetric}})
@@ -175,6 +175,9 @@ export function generateClarityBriefLite(input: {
   const projectName = String(q15.project_name || "").trim() || fallbackProjectName;
   const { successGoal, successMetric } = extractQ13GoalMetric(responses);
 
+  // Extract target user from Q16
+  const targetUser = String(responses[16] || "").trim() || "[Define your primary user type]";
+
   const features = mergeFeaturesFromResponses(responses);
   const mustHaveFeatures = formatBullets(features.slice(0, 5), "- [Define core features]");
   const postMvpFeatures = formatBullets(features.slice(5), "- [Define post-MVP features]");
@@ -194,6 +197,7 @@ export function generateClarityBriefLite(input: {
     vertical: templateInfo.vertical,
     problem,
     solution,
+    targetUser,
     successGoal,
     successMetric,
     budget: String(responses[6] || "Not specified"),

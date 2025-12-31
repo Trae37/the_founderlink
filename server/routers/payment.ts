@@ -17,8 +17,15 @@ function getStripeClient(): Stripe {
       "Refusing to use a live Stripe key in development. Set STRIPE_SECRET_KEY to an sk_test_... key (and make sure you do not have STRIPE_SECRET_KEY set in Windows Environment Variables)."
     );
   }
+
+  // Log key prefix for debugging (safe - only shows first 12 chars)
+  console.log(`[Stripe] Initializing with key: ${key.substring(0, 12)}...`);
+
   if (!stripeClient) {
-    stripeClient = new Stripe(key);
+    stripeClient = new Stripe(key, {
+      timeout: 30000,
+      maxNetworkRetries: 3,
+    });
   }
   return stripeClient;
 }

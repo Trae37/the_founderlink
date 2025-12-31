@@ -1,4 +1,4 @@
-import OpenAI from "openai";
+import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 import { getCoreFeaturesFromQ4Answer } from "@shared/feature-catalog";
 
@@ -40,26 +40,26 @@ interface PRDData {
 }
 
 export class PRDGenerator {
-  private openai: OpenAI | null;
+  private anthropic: Anthropic | null;
 
   constructor() {
-    this.openai = null;
+    this.anthropic = null;
   }
 
-  private getOpenAI(): OpenAI {
-    const apiKey = process.env.OPENAI_API_KEY;
+  private getAnthropic(): Anthropic {
+    const apiKey = process.env.ANTHROPIC_API_KEY;
     if (!apiKey) {
-      throw new Error("OPENAI_API_KEY is not configured");
+      throw new Error("ANTHROPIC_API_KEY is not configured");
     }
 
-    if (!this.openai) {
-      this.openai = new OpenAI({
+    if (!this.anthropic) {
+      this.anthropic = new Anthropic({
         apiKey,
         timeout: 55000, // 55 second timeout to fit within Vercel's 60s limit
       });
     }
 
-    return this.openai;
+    return this.anthropic;
   }
 
   /**
@@ -733,14 +733,14 @@ ${JSON.stringify(responses, null, 2)}
 
 Return the enhanced brief maintaining the same markdown structure. Every enhancement should be traceable to something the founder actually said.`;
 
-    const completion = await this.getOpenAI().chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [{ role: "user", content: prompt }],
-      temperature: 0.7,
+    const message = await this.getAnthropic().messages.create({
+      model: "claude-sonnet-4-20250514",
       max_tokens: 2500,
+      messages: [{ role: "user", content: prompt }],
     });
 
-    return completion.choices[0].message.content || basicBrief;
+    const textBlock = message.content.find((block) => block.type === "text");
+    return textBlock?.text || basicBrief;
   }
 
   /**
@@ -803,14 +803,14 @@ ${JSON.stringify(responses, null, 2)}
 
 Return the enhanced playbook maintaining the same markdown structure. Every recommendation should be specific to THIS founder's situation based on their actual answers.`;
 
-    const completion = await this.getOpenAI().chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [{ role: "user", content: prompt }],
-      temperature: 0.7,
+    const message = await this.getAnthropic().messages.create({
+      model: "claude-sonnet-4-20250514",
       max_tokens: 2500,
+      messages: [{ role: "user", content: prompt }],
     });
 
-    return completion.choices[0].message.content || basicPlaybook;
+    const textBlock = message.content.find((block) => block.type === "text");
+    return textBlock?.text || basicPlaybook;
   }
 
   /**
@@ -884,14 +884,14 @@ ${JSON.stringify(responses, null, 2)}
 
 Return the enhanced PRD maintaining the same markdown structure. A developer should finish reading this knowing exactly what the founder wants and why, with enough detail to start building confidently.`;
 
-    const completion = await this.getOpenAI().chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [{ role: "user", content: prompt }],
-      temperature: 0.7,
+    const message = await this.getAnthropic().messages.create({
+      model: "claude-sonnet-4-20250514",
       max_tokens: 3000,
+      messages: [{ role: "user", content: prompt }],
     });
 
-    return completion.choices[0].message.content || basicPRD;
+    const textBlock = message.content.find((block) => block.type === "text");
+    return textBlock?.text || basicPRD;
   }
 
   /**
@@ -954,13 +954,13 @@ ${JSON.stringify(responses, null, 2)}
 
 Return the enhanced agreement with SPECIFIC numbers from their responses - actual dollar amounts, actual features, actual timeline. The founder should see their exact project reflected in this document.`;
 
-    const completion = await this.getOpenAI().chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [{ role: "user", content: prompt }],
-      temperature: 0.7,
+    const message = await this.getAnthropic().messages.create({
+      model: "claude-sonnet-4-20250514",
       max_tokens: 2500,
+      messages: [{ role: "user", content: prompt }],
     });
 
-    return completion.choices[0].message.content || basicAgreement;
+    const textBlock = message.content.find((block) => block.type === "text");
+    return textBlock?.text || basicAgreement;
   }
 }

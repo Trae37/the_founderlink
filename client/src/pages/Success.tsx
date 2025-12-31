@@ -130,6 +130,14 @@ export default function Success() {
 
         {/* Downloads (re-download) */}
         <div className="bg-white border border-[#d4d4d0] rounded-sm p-8 mb-12 shadow-sm">
+          {/* Disclaimer */}
+          <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-sm">
+            <p className="text-sm text-blue-800">
+              <strong>Note:</strong> It may take a few minutes for your documents to appear here while our AI enhances them.
+              Don't worry - they'll also be sent directly to your email, so check your inbox!
+            </p>
+          </div>
+
           <div className="flex items-start justify-between gap-6 flex-col md:flex-row">
             <div className="flex-1">
               <h2 className="text-2xl font-medium text-neutral-900 mb-2 tracking-tight">Download Your Documents</h2>

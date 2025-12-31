@@ -293,7 +293,7 @@ export async function invokeLLM(params: InvokeParams): Promise<InvokeResult> {
 
   const client = getAnthropicClient();
   const response = await client.messages.create({
-    model: "claude-sonnet-4-20250514",
+    model: "claude-3-5-haiku-20241022",
     max_tokens: 2000,
     system: systemMessage ? (typeof systemMessage.content === "string" ? systemMessage.content : JSON.stringify(systemMessage.content)) : undefined,
     messages: anthropicMessages,

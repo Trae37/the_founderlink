@@ -55,7 +55,7 @@ export class PRDGenerator {
     if (!this.anthropic) {
       this.anthropic = new Anthropic({
         apiKey,
-        timeout: 50000, // 50 second timeout to fit within Vercel's 60s limit
+        timeout: 25000, // 25 second timeout per call
       });
     }
 

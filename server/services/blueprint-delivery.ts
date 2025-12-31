@@ -59,16 +59,23 @@ export async function generateAndSendBlueprintFromStripeSession(input: {
   });
   const basicWorkingAgreement = prdGenerator.generateWorkingAgreement(prdData);
 
-  // Enhance all 4 documents with AI for paid users (run in parallel for speed)
-  console.log("[Blueprint] Enhancing documents with AI (parallel)...");
+  // Enhance all 4 documents with AI for paid users (run 2 at a time to fit timeout)
+  console.log("[Blueprint] Enhancing documents with AI...");
   console.log("[Blueprint] ANTHROPIC_API_KEY configured:", !!process.env.ANTHROPIC_API_KEY);
 
-  const [clarityBrief, hiringPlaybook, prd, workingAgreement] = await Promise.all([
+  // First batch: Clarity Brief + Hiring Playbook
+  const [clarityBrief, hiringPlaybook] = await Promise.all([
     prdGenerator.enhanceClarityBrief(basicClarityBrief, parsedResponses),
     prdGenerator.enhanceHiringPlaybook(basicHiringPlaybook, parsedResponses),
+  ]);
+  console.log("[Blueprint] Batch 1 complete (Clarity Brief + Hiring Playbook)");
+
+  // Second batch: PRD + Working Agreement
+  const [prd, workingAgreement] = await Promise.all([
     prdGenerator.enhancePRD(basicPrd, parsedResponses),
     prdGenerator.enhanceWorkingAgreement(basicWorkingAgreement, parsedResponses),
   ]);
+  console.log("[Blueprint] Batch 2 complete (PRD + Working Agreement)");
 
   console.log("[Blueprint] AI enhancement complete");
 

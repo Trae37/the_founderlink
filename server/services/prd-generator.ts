@@ -686,9 +686,16 @@ YOUR TASK: Take the founder's ACTUAL responses from the assessment and enhance t
 CRITICAL RULES:
 - The "Original Brief" contains the founder's REAL answers - these are the source of truth
 - ENHANCE what they actually said - add depth, clarity, and actionable detail
-- DO NOT invent new information, statistics, or details they didn't provide
-- If something is missing, write "[Founder to clarify: specific question]" - never make it up
+- DO NOT invent facts about the founder's specific business or make up statistics
+- If something is missing, write "[Founder to clarify: specific question]"
 - Quote or closely paraphrase their actual words when expanding on their answers
+
+APPLY YOUR KNOWLEDGE:
+- If the founder mentions an industry (e.g., healthcare, fintech), add relevant context about that industry's needs, regulations, and common patterns
+- If they describe a product type (e.g., marketplace, SaaS), explain what typically makes that type successful
+- If they mention technologies or integrations, provide context about how those work and what to consider
+- Add domain expertise that helps the developer understand the business context
+- This is NOT hallucinating - this is applying general knowledge to enrich their specific answers
 
 WHAT TO ENHANCE:
 
@@ -744,9 +751,17 @@ YOUR TASK: Take the founder's ACTUAL assessment responses and create tailored hi
 CRITICAL RULES:
 - The "Original Playbook" contains guidance based on their REAL answers - enhance it
 - All technical skills must map directly to features they selected (Q4/Q5)
-- Budget guidance must use their exact budget range from Q6 - don't invent rates
+- Budget guidance must use their exact budget range from Q6 - don't invent specific rates
 - All advice should account for their management comfort (Q9) and prior experience (Q10)
-- DO NOT make up market rates, salary ranges, or statistics
+- DO NOT make up specific market rates or salary statistics
+
+APPLY YOUR KNOWLEDGE:
+- If they selected specific features (Q4/Q5), explain what technical skills those features typically require
+- If they chose a product type (Q2), add context about what makes developers successful in that domain
+- If they mentioned integrations (Q14), explain what experience with those APIs/services looks like
+- Add industry context about hiring for their specific product category
+- Provide general guidance about developer types, engagement models, and vetting based on their constraints
+- This enriches their answers with practical expertise without inventing facts about their specific situation
 
 WHAT TO ENHANCE:
 
@@ -808,6 +823,15 @@ CRITICAL RULES:
 - ENHANCE their actual feature selections, problem description, and requirements
 - DO NOT invent user data, statistics, or technical requirements they didn't mention
 - If clarification is needed, write "[Developer should confirm with founder: specific question]"
+
+APPLY YOUR KNOWLEDGE:
+- If they describe a problem (Q12), add context about why this problem matters in their industry
+- If they selected features (Q4/Q5), explain technical considerations and best practices for implementing them
+- If they chose a platform (Q3), add relevant platform-specific requirements and patterns
+- If they mentioned integrations (Q14), explain API considerations, authentication flows, and common gotchas
+- If they selected compliance needs (Q5), explain what those compliance requirements typically entail
+- Add architectural guidance and technical context that helps the developer make smart decisions
+- This is applying expertise to their answers, not inventing facts about their specific business
 
 WHAT TO ENHANCE:
 
@@ -881,6 +905,14 @@ CRITICAL RULES:
 - Deliverables MUST match their Q4/Q5 features exactly
 - Timeline MUST align with their Q7 answer
 - DO NOT invent terms or clauses - enhance what's there with their specific details
+
+APPLY YOUR KNOWLEDGE:
+- If they selected specific features (Q4/Q5), explain what "done" typically means for those feature types
+- If they chose a timeline (Q7), add context about realistic milestone pacing for their scope
+- If they indicated management comfort level (Q9), suggest appropriate communication structures
+- Add standard best practices for working agreements in software development
+- Include typical acceptance criteria patterns for their feature types
+- This adds professional structure to their answers without inventing facts about their project
 
 WHAT TO ENHANCE:
 

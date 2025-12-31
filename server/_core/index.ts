@@ -205,11 +205,13 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
 }
 
 async function startServer() {
-  const { serveStatic, setupVite } = await import("./vite");
-  // development mode uses Vite, production mode uses static files
+  // Only import Vite in development - this keeps lightningcss out of production bundle
   if (process.env.NODE_ENV === "development") {
+    const { setupVite } = await import("./vite");
     await setupVite(app, server);
   } else {
+    // Production: use simple static file serving (no Vite dependencies)
+    const { serveStatic } = await import("./serve-static");
     serveStatic(app);
   }
 

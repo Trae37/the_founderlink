@@ -225,7 +225,7 @@ function generateSnapshotHTML(data: SnapshotEmailData): string {
       </ul>
 
       <div style="text-align: center; margin: 30px 0;">
-        <a href="https://3000-i8wdjfwo4omersmswtsmf-e4db9cf9.manusvm.computer/results" class="cta-button">
+        <a href="https://thefounderlink.com/results" class="cta-button">
           Upgrade to Full Blueprint - $149
         </a>
       </div>

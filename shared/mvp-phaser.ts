@@ -49,11 +49,10 @@ const PHASE2_CANDIDATES = [
   "reporting",
   "advanced dashboard",
   "admin panel",
-  "user profiles",
   "settings",
   "notifications",
-  "email",
-  "search",
+  "email notifications",
+  // NOTE: "user profiles" and "search" removed - these are often MVP-critical
 ];
 
 /**
@@ -697,6 +696,37 @@ export function generateMVPPhaseBreakdown(
 
       mvpFeatures = nextMvp;
       nonMvp = nextNonMvp;
+    }
+  }
+
+  // GUARANTEE: MVP must have at least 2 features (ideally 3)
+  const MIN_MVP_FEATURES = 2;
+  const IDEAL_MVP_FEATURES = 3;
+
+  if (mvpFeatures.length < MIN_MVP_FEATURES && nonMvp.length > 0) {
+    // Pull highest-value features from Phase 2 into MVP
+    const phase2Features = nonMvp.filter(f => f.phase === "phase2");
+    const toPromote = phase2Features
+      .sort((a, b) => {
+        // Prioritize by estimated value (lower hours = simpler = promote first for MVP)
+        const aHours = (a.estimatedHours.min + a.estimatedHours.max) / 2;
+        const bHours = (b.estimatedHours.min + b.estimatedHours.max) / 2;
+        return aHours - bHours;
+      })
+      .slice(0, IDEAL_MVP_FEATURES - mvpFeatures.length);
+
+    for (const feature of toPromote) {
+      const idx = nonMvp.findIndex(f => f.name === feature.name);
+      if (idx !== -1) {
+        nonMvp.splice(idx, 1);
+        mvpFeatures.push({
+          name: feature.name,
+          phase: "mvp",
+          reasoning: `${feature.reasoning} • Promoted to ensure viable MVP`,
+          complexity: feature.complexity,
+          estimatedHours: feature.estimatedHours,
+        });
+      }
     }
   }
 

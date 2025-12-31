@@ -17,7 +17,7 @@ export interface CategoryGroup {
 
 export interface AssessmentQuestion {
   id: number;
-  section: "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I";
+  section: "A" | "B" | "C" | "D" | "E";
   question: string;
   helperText?: string;
   type: "single" | "multiple" | "text" | "number" | "searchable-multi-select";
@@ -236,6 +236,25 @@ export const assessmentQuestions: AssessmentQuestion[] = [
     section: "D",
     question: "Q15: Contact details",
     type: "text",
+    required: true,
+  },
+  {
+    id: 16,
+    section: "E",
+    question: "Q16: Who is your primary user?",
+    helperText: "Select the type that best describes who will use your product daily.",
+    type: "single",
+    options: [
+      "Consumers (B2C - individuals buying for personal use)",
+      "Small business owners or freelancers",
+      "Enterprise employees (B2B - using at work)",
+      "Internal team members (company tool)",
+      "Two-sided: Both buyers AND sellers/providers",
+      "Healthcare professionals (doctors, nurses, staff)",
+      "Students, teachers, or trainers",
+      "Developers or technical users",
+      "Other (describe below)",
+    ],
     required: true,
   },
 ];

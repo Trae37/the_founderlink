@@ -77,7 +77,7 @@ export default function Assessment() {
   const [backendSaveEnabled, setBackendSaveEnabled] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const sections = ["A", "B", "C", "D"];
+  const sections = ["A", "B", "C", "D", "E"];
   const clampStep = (step: number) => {
     if (Number.isNaN(step)) return 0;
     return Math.max(0, Math.min(step, sections.length - 1));
@@ -217,7 +217,8 @@ export default function Assessment() {
     "Basics",
     "MVP Scope",
     "Budget & Build",
-    "Details"
+    "Details",
+    "Target User"
   ];
   const clampedCurrentStep = clampStep(currentStep);
   const currentSection = sections[clampedCurrentStep];
@@ -605,6 +606,7 @@ export default function Assessment() {
             {clampedCurrentStep === 1 && "Define your MVP scope"}
             {clampedCurrentStep === 2 && "Budget and build preferences"}
             {clampedCurrentStep === 3 && "Wrap up with final details"}
+            {clampedCurrentStep === 4 && "Tell us about your target user"}
           </h1>
         </div>
 

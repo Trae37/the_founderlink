@@ -1,12 +1,15 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist/public",
-  "framework": null,
-  "rewrites": [{ "source": "/api/(.*)", "destination": "/api/index.ts" }],
   "functions": {
     "api/index.ts": {
       "maxDuration": 30,
       "includeFiles": "dist/**"
     }
-  }
+  },
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/api/index.ts" },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
 }

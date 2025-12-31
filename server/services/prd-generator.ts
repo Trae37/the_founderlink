@@ -126,8 +126,8 @@ export class PRDGenerator {
       budgetLow: this.extractBudgetRange(String(responses[6] || "")).low,
       budgetHigh: this.extractBudgetRange(String(responses[6] || "")).high,
       timelineWeeks: this.extractTimelineWeeks(String(responses[7] || "")),
-      primaryUser: "Primary user needs further exploration from client",
-      painPoints: [], // Not currently captured in assessment
+      primaryUser: this.extractPrimaryUser(responses),
+      painPoints: this.extractPainPoints(responses),
       platform: String(responses[3] || "") || "Platform needs further exploration from client",
       integrations,
       security: "Security requirements need further exploration from client",
@@ -189,6 +189,27 @@ export class PRDGenerator {
       "Not sure yet": "TBD",
     };
     return weeks[timeline] || "TBD";
+  }
+
+  /**
+   * Extract primary user from Q16 response
+   */
+  private extractPrimaryUser(responses: AssessmentResponses): string {
+    const userType = String(responses[16] || "").trim();
+
+    if (!userType) {
+      return "Primary user needs further exploration from client";
+    }
+
+    return userType;
+  }
+
+  /**
+   * Extract pain points from Q12 (product description) response
+   */
+  private extractPainPoints(responses: AssessmentResponses): string[] {
+    const description = String(responses[12] || "").trim();
+    return description ? [description] : [];
   }
 
   /**
@@ -349,7 +370,7 @@ ${data.problem}
 ${data.solution}
 
 **4. TARGET USER**
-[Derived from your description: needs further refinement]
+${data.primaryUser}
 
 **5. SUCCESS CRITERIA**
 ${data.successMetrics}
@@ -475,7 +496,7 @@ ${data.problem}
 ${data.solution}
 
 **Target Users:**
-[Needs further exploration from client]
+${data.primaryUser}
 
 **Success Metrics:**
 ${data.successMetrics}
@@ -483,7 +504,7 @@ ${data.successMetrics}
 **3. USER TYPES / PERSONAS**
 | User Type | Description | Primary Goals |
 |---|---|---|
-| Primary user | [TBD] | [TBD] |
+| ${data.primaryUser.split('.')[0] || 'Primary user'} | ${data.primaryUser} | ${data.painPoints.length > 0 ? `Solve: ${data.painPoints[0]}` : '[TBD]'} |
 
 **4. FEATURE SPECIFICATIONS**
 ${features

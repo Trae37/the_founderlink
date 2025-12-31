@@ -1,4 +1,4 @@
-import { Document, Paragraph, TextRun, HeadingLevel, AlignmentType } from "docx";
+import { Document, Paragraph, TextRun, HeadingLevel, AlignmentType, Packer } from "docx";
 import { marked } from "marked";
 import fs from "fs/promises";
 import path from "path";
@@ -91,7 +91,7 @@ export class DocumentExporter {
             },
           ],
         });
-        const buffer = await (wordDoc as any).toBuffer();
+        const buffer = await Packer.toBuffer(wordDoc);
         await fs.writeFile(outPath, buffer);
         return [doc.slug, outPath] as const;
       })
@@ -223,7 +223,7 @@ export class DocumentExporter {
       ],
     });
 
-    const buffer = await (doc as any).toBuffer();
+    const buffer = await Packer.toBuffer(doc);
     await fs.writeFile(outputPath, buffer);
     return outputPath;
   }
@@ -267,8 +267,8 @@ export class DocumentExporter {
     });
 
     const [prdBuffer, sowBuffer] = await Promise.all([
-      (prdDoc as any).toBuffer(),
-      (sowDoc as any).toBuffer(),
+      Packer.toBuffer(prdDoc),
+      Packer.toBuffer(sowDoc),
     ]);
 
     await Promise.all([

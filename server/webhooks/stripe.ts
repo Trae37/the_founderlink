@@ -27,23 +27,29 @@ export async function handleStripeWebhook(
   body: Buffer,
   signature: string
 ): Promise<{ success: boolean; message: string }> {
+  console.log("[Stripe Webhook] Starting processing...");
   try {
     if (!process.env.STRIPE_WEBHOOK_SECRET) {
+      console.error("[Stripe Webhook] Missing STRIPE_WEBHOOK_SECRET");
       return { success: false, message: "Stripe webhook not configured (missing STRIPE_WEBHOOK_SECRET)" };
     }
     if (!process.env.STRIPE_SECRET_KEY) {
+      console.error("[Stripe Webhook] Missing STRIPE_SECRET_KEY");
       return { success: false, message: "Stripe not configured (missing STRIPE_SECRET_KEY)" };
     }
 
+    console.log("[Stripe Webhook] Verifying signature...");
     const stripe = getStripeClient();
     const event = stripe.webhooks.constructEvent(
       body,
       signature,
       process.env.STRIPE_WEBHOOK_SECRET
     );
+    console.log("[Stripe Webhook] Event type:", event.type);
 
     switch (event.type) {
       case "checkout.session.completed":
+        console.log("[Stripe Webhook] Processing checkout.session.completed...");
         return await handleCheckoutSessionCompleted(event.data.object as Stripe.Checkout.Session);
       case "charge.refunded":
         return await handleChargeRefunded(event.data.object as Stripe.Charge);
@@ -51,16 +57,19 @@ export async function handleStripeWebhook(
         console.log(`Unhandled event type: ${event.type}`);
         return { success: true, message: "Event received but not processed" };
     }
-  } catch (error) {
-    console.error("Webhook error:", error);
+  } catch (error: any) {
+    console.error("[Stripe Webhook] Error:", error?.message || error);
+    console.error("[Stripe Webhook] Stack:", error?.stack);
     throw error;
   }
 }
 
 async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) {
+  console.log("[Checkout] Starting handleCheckoutSessionCompleted for session:", session.id);
   try {
     const db = await getDb();
     if (!db) throw new Error("Database not available");
+    console.log("[Checkout] Database connected");
 
     const productType = session.metadata?.product_type || session.metadata?.productType;
     if (productType === "prd-sow-tripwire") {

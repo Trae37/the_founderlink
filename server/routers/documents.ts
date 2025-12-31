@@ -43,7 +43,7 @@ export const documentsRouter = router({
         throw new TRPCError({ code: "NOT_FOUND", message: "Session not found" });
       }
 
-      const outputDir = path.join(process.cwd(), "generated-documents", response.email, input.stripeSessionId);
+      const outputDir = path.join("/tmp", "generated-documents", response.email, input.stripeSessionId);
       let files: string[] | null = null;
       try {
         files = await fs.readdir(outputDir);
@@ -187,7 +187,7 @@ export const documentsRouter = router({
       });
       const workingAgreement = prdGenerator.generateWorkingAgreement(prdData);
 
-      const outputDir = path.join(process.cwd(), "generated-documents", response.email, input.stripeSessionId);
+      const outputDir = path.join("/tmp", "generated-documents", response.email, input.stripeSessionId);
       const baseFilename = prdData.productName.replace(/\s+/g, "-").replace(/[^a-zA-Z0-9\-_]/g, "");
 
       const format = input.blueprintFormat || "docx";

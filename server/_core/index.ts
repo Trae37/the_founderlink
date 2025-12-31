@@ -20,13 +20,16 @@ const server = createServer(app);
 // Configure body parser with larger size limit for file uploads
 // NOTE: Stripe webhook needs raw body, so it must be registered BEFORE express.json()
 app.post("/api/webhooks/stripe", express.raw({ type: "application/json" }), async (req, res) => {
+  console.log("[Webhook] Received Stripe webhook");
   const signature = req.headers["stripe-signature"] as string;
   try {
     const result = await handleStripeWebhook(req.body as Buffer, signature);
+    console.log("[Webhook] Success:", result);
     res.json(result);
-  } catch (error) {
-    console.error("Webhook error:", error);
-    res.status(400).json({ error: "Webhook processing failed" });
+  } catch (error: any) {
+    console.error("[Webhook] ERROR:", error?.message || error);
+    console.error("[Webhook] Stack:", error?.stack);
+    res.status(400).json({ error: "Webhook processing failed", details: error?.message });
   }
 });
 
@@ -85,7 +88,7 @@ app.get("/api/blueprint/:stripeSessionId/download/:slug", async (req, res) => {
     return;
   }
 
-  const outputDir = path.join(process.cwd(), "generated-documents", response.email, stripeSessionId);
+  const outputDir = path.join("/tmp", "generated-documents", response.email, stripeSessionId);
   let files: string[];
   try {
     files = await fs.readdir(outputDir);
@@ -142,7 +145,7 @@ app.get("/api/blueprint/:stripeSessionId/download.zip", async (req, res) => {
     return;
   }
 
-  const outputDir = path.join(process.cwd(), "generated-documents", response.email, stripeSessionId);
+  const outputDir = path.join("/tmp", "generated-documents", response.email, stripeSessionId);
   let files: string[];
   try {
     files = await fs.readdir(outputDir);

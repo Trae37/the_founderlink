@@ -208,7 +208,10 @@ export class PRDGenerator {
    * Extract pain points from Q12 (product description) response
    */
   private extractPainPoints(responses: AssessmentResponses): string[] {
-    const description = String(responses[12] || "").trim();
+    const q12 = responses[12];
+    const description = typeof q12 === "string"
+      ? q12.trim()
+      : String(q12?.problem || "").trim();
     return description ? [description] : [];
   }
 

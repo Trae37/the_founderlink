@@ -58,7 +58,7 @@ export async function generateAndSendBlueprintFromStripeSession(input: {
   });
   const workingAgreement = prdGenerator.generateWorkingAgreement(prdData);
 
-  const outputDir = path.join(process.cwd(), "generated-documents", response.email, input.stripeSessionId);
+  const outputDir = path.join("/tmp", "generated-documents", response.email, input.stripeSessionId);
   const baseFilename = prdData.productName.replace(/\s+/g, "-").replace(/[^a-zA-Z0-9\-_]/g, "");
 
   const exporter = new DocumentExporter();

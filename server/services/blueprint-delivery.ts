@@ -61,6 +61,7 @@ export async function generateAndSendBlueprintFromStripeSession(input: {
 
   // Enhance all 4 documents with AI for paid users (run sequentially to avoid timeout)
   console.log("[Blueprint] Enhancing documents with AI...");
+  console.log("[Blueprint] ANTHROPIC_API_KEY configured:", !!process.env.ANTHROPIC_API_KEY);
 
   console.log("[Blueprint] Enhancing Clarity Brief...");
   const clarityBrief = await prdGenerator.enhanceClarityBrief(basicClarityBrief, parsedResponses);

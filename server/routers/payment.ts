@@ -162,9 +162,10 @@ export const paymentRouter = router({
           checkoutUrl: session.url || "",
           sessionId: session.id,
         };
-      } catch (error) {
-        console.error("Stripe checkout error:", error);
-        throw new Error("Failed to create checkout session");
+      } catch (error: any) {
+        console.error("Stripe checkout error:", error?.message || error);
+        console.error("Stripe error details:", JSON.stringify(error, null, 2));
+        throw new Error(`Failed to create checkout session: ${error?.message || "Unknown error"}`);
       }
     }),
 });

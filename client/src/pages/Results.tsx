@@ -292,9 +292,10 @@ export default function Results() {
       if (response.checkoutUrl) {
         window.location.href = response.checkoutUrl;
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Checkout error:", error);
-      alert("Failed to start checkout. Please try again.");
+      const errorMsg = error?.message || "Unknown error";
+      alert(`Failed to start checkout: ${errorMsg}`);
     } finally {
       setIsLoading(false);
     }

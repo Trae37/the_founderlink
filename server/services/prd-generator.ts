@@ -679,35 +679,55 @@ Developer Signature: _____________________ Date: _____________________
    * Enhance Project Clarity Brief with AI (for paid users)
    */
   async enhanceClarityBrief(basicBrief: string, responses: AssessmentResponses): Promise<string> {
-    const prompt = `You are a startup advisor helping a non-technical founder clarify their product vision.
+    const prompt = `You are enhancing a Project Clarity Brief to help a developer become a true partner in building this product.
 
-Given this Project Clarity Brief template, enhance it by:
-1. Expanding the problem statement into a compelling narrative (2-3 sentences that paint a vivid picture of the pain)
-2. Elaborating on the solution with specific value propositions
-3. Creating a detailed target user persona with demographics, behaviors, and motivations
-4. Turning success criteria into SMART goals (Specific, Measurable, Achievable, Relevant, Time-bound)
-5. Adding strategic context and market positioning insights
-6. Providing actionable recommendations in the "Recommended Approach" section
+YOUR TASK: Take the founder's ACTUAL responses from the assessment and enhance them - elaborate, clarify, and make them more actionable. You are NOT creating new content - you are making their real answers more detailed and useful.
 
-Original Brief:
+CRITICAL RULES:
+- The "Original Brief" contains the founder's REAL answers - these are the source of truth
+- ENHANCE what they actually said - add depth, clarity, and actionable detail
+- DO NOT invent new information, statistics, or details they didn't provide
+- If something is missing, write "[Founder to clarify: specific question]" - never make it up
+- Quote or closely paraphrase their actual words when expanding on their answers
+
+WHAT TO ENHANCE:
+
+**THE PROBLEM**: The founder described this in Q12. Take their exact description and:
+- Rewrite it as a clear, compelling problem statement
+- Break it down into specific pain points they mentioned
+- If they were vague, note what clarification would help
+
+**THE SOLUTION**: Based on Q12 and their feature selections (Q4/Q5):
+- Articulate how their chosen features solve the problem they described
+- Connect each feature back to the pain points
+- Keep it grounded in what THEY said they want to build
+
+**TARGET USER / ICP**: Based on their Q16 selection and Q12 context:
+- Expand on the user type they selected
+- Describe this user in the context of the problem they described
+- What can we infer about this user from their answers? (but don't invent demographics)
+
+**SUCCESS METRICS**: Based on their Q13 answer:
+- Take their success definition and make it more specific and measurable
+- What would indicate their MVP is working based on what they said?
+
+**CONSTRAINTS**: Based on Q6 (budget), Q7 (timeline), Q3 (platform), Q8 (build preference):
+- Summarize their actual constraints
+- Note any tensions between their ambitions and constraints
+
+Original Brief (contains the founder's real answers):
 ${basicBrief}
 
-Assessment Responses:
+Assessment Responses (raw data):
 ${JSON.stringify(responses, null, 2)}
 
-Return the enhanced brief with:
-- Rich, compelling narratives instead of bare facts
-- Specific personas with names and detailed profiles
-- Quantified success metrics where possible
-- Strategic insights a founder can use in pitch decks
-- Keep the same markdown structure and section headers
-- Do NOT add sections that aren't in the original`;
+Return the enhanced brief maintaining the same markdown structure. Every enhancement should be traceable to something the founder actually said.`;
 
     const completion = await this.getOpenAI().chat.completions.create({
       model: "gpt-4o-mini",
       messages: [{ role: "user", content: prompt }],
       temperature: 0.7,
-      max_tokens: 3000,
+      max_tokens: 4000,
     });
 
     return completion.choices[0].message.content || basicBrief;
@@ -717,37 +737,59 @@ Return the enhanced brief with:
    * Enhance Hiring Playbook with AI (for paid users)
    */
   async enhanceHiringPlaybook(basicPlaybook: string, responses: AssessmentResponses): Promise<string> {
-    const prompt = `You are a technical hiring expert helping a non-technical founder hire their first developer.
+    const prompt = `You are enhancing a Hiring Playbook to help this specific founder find the right developer partner.
 
-Given this Hiring Playbook template, enhance it by:
-1. Adding specific technical skills to look for based on the project requirements
-2. Creating tailored interview questions specific to this project type
-3. Providing concrete red/green flag examples with real scenarios
-4. Adding salary/rate ranges and negotiation tips based on the budget
-5. Creating a detailed vetting checklist with weighted scoring criteria
-6. Adding platform-specific tips for where to find candidates
-7. Including a sample job post or outreach message template
+YOUR TASK: Take the founder's ACTUAL assessment responses and create tailored hiring guidance. Everything must be based on what THEY told us about their project, budget, timeline, and experience level.
 
-Original Playbook:
+CRITICAL RULES:
+- The "Original Playbook" contains guidance based on their REAL answers - enhance it
+- All technical skills must map directly to features they selected (Q4/Q5)
+- Budget guidance must use their exact budget range from Q6 - don't invent rates
+- All advice should account for their management comfort (Q9) and prior experience (Q10)
+- DO NOT make up market rates, salary ranges, or statistics
+
+WHAT TO ENHANCE:
+
+**ROLE REQUIREMENTS**: Based on their actual selections:
+- Q3 (platform) → What platform expertise is needed
+- Q4/Q5 (features) → What specific technical skills these features require
+- Q8 (build preference) → No-code builder vs custom developer
+- Q2 (product type) → Domain experience that would help
+
+**HIRING CONTEXT**: Based on their experience:
+- Q9 (management comfort) → How much guidance do they need in the hiring process?
+- Q10 (prior experience) → Tailor advice for first-time vs experienced hirers
+- Q11 (timezone) → Factor in their working hour preferences
+
+**BUDGET & TIMELINE REALITY**: Using their actual numbers:
+- Q6 (budget) → What's realistic within their stated range
+- Q7 (timeline) → How timeline affects hiring approach
+- Be honest about tradeoffs given THEIR constraints
+
+**INTERVIEW GUIDANCE**: Tailored to THIS project:
+- Questions about THEIR specific product type (Q2)
+- Questions about THEIR features (Q4/Q5)
+- Questions about THEIR problem (Q12)
+
+**SAMPLE JOB POST**: Write an actual job post for THIS project using:
+- Their product description (Q12)
+- Their features (Q4/Q5)
+- Their budget range (Q6)
+- Their timeline (Q7)
+
+Original Playbook (based on their answers):
 ${basicPlaybook}
 
-Assessment Responses:
+Assessment Responses (raw data):
 ${JSON.stringify(responses, null, 2)}
 
-Return the enhanced playbook with:
-- Specific technical skills mapped to project features
-- Custom interview questions for this specific project
-- Realistic budget expectations and rate guidance
-- Actionable vetting criteria with scoring
-- Sample outreach/job post templates
-- Keep the same markdown structure and section headers
-- Do NOT add sections that aren't in the original`;
+Return the enhanced playbook maintaining the same markdown structure. Every recommendation should be specific to THIS founder's situation based on their actual answers.`;
 
     const completion = await this.getOpenAI().chat.completions.create({
       model: "gpt-4o-mini",
       messages: [{ role: "user", content: prompt }],
       temperature: 0.7,
-      max_tokens: 3500,
+      max_tokens: 4500,
     });
 
     return completion.choices[0].message.content || basicPlaybook;
@@ -757,38 +799,69 @@ Return the enhanced playbook with:
    * Enhance PRD with AI (for paid users)
    */
   async enhancePRD(basicPRD: string, responses: AssessmentResponses): Promise<string> {
-    const prompt = `You are a technical product manager helping a non-technical founder create a clear PRD for developers.
+    const prompt = `You are enhancing a Product Requirements Document (PRD) to serve as the complete "source of truth" for a developer partner.
 
-Given this basic PRD with placeholder text, enhance it by:
-1. Adding technical clarity for developers (e.g., specific tech stack recommendations, API requirements)
-2. Adding founder-friendly explanations in parentheses after technical terms
-3. Generating detailed 5-7 step user flows for each feature
-4. Creating comprehensive acceptance criteria (5+ bullets per feature)
-5. Adding technical architecture notes and data model hints
-6. Specifying API endpoints and integration requirements
-7. Adding edge cases and error handling requirements
+YOUR TASK: Take the founder's ACTUAL assessment responses and transform them into a comprehensive PRD. The developer should understand not just WHAT to build, but WHY - so they can make smart decisions and contribute to the vision.
 
-Original PRD:
+CRITICAL RULES:
+- The "Original PRD" contains the founder's REAL answers - these are your source material
+- ENHANCE their actual feature selections, problem description, and requirements
+- DO NOT invent user data, statistics, or technical requirements they didn't mention
+- If clarification is needed, write "[Developer should confirm with founder: specific question]"
+
+WHAT TO ENHANCE:
+
+**PRODUCT OVERVIEW**: From their Q12 description:
+- Rewrite their problem statement clearly and compellingly
+- Articulate their solution based on what they described
+- State the core value proposition in one sentence
+
+**TARGET USER**: From Q16 and Q12:
+- Expand on the user type they selected
+- Describe this user's context based on the problem they described
+- What we can infer about user needs from their answers
+- DO NOT invent demographics or personas - use what they told us
+
+**FEATURE SPECIFICATIONS**: For EACH feature from Q4 and Q5:
+- User Story format: As a [their Q16 user], I want [feature] so that [connect to Q12 problem]
+- Acceptance criteria (5-7 bullets based on what this feature should accomplish)
+- User flow (step-by-step based on logical interaction)
+- Edge cases to consider
+- How this feature connects to their Q14 integrations if relevant
+
+**TECHNICAL CONTEXT**: Based on their actual choices:
+- Q3 (platform) → Platform requirements and considerations
+- Q8 (build preference) → Tech stack direction (no-code vs custom)
+- Q14 (integrations) → Integration requirements and API needs
+- Q5 (day-one needs) → Compliance, auth, payments requirements they selected
+
+**SUCCESS CRITERIA**: From Q13:
+- Expand their success definition into measurable acceptance criteria
+- What would indicate the MVP is achieving its goals?
+
+**SCOPE & CONSTRAINTS**:
+- Q6 (budget) → What's realistic to build
+- Q7 (timeline) → Phasing considerations
+- What's explicitly MVP vs post-MVP based on their priorities
+
+**OPEN QUESTIONS**: Things the developer should discuss with the founder:
+- Ambiguities in their responses
+- Technical decisions that need founder input
+- Prioritization questions
+
+Original PRD (based on their answers):
 ${basicPRD}
 
-Assessment Responses:
+Assessment Responses (raw data):
 ${JSON.stringify(responses, null, 2)}
 
-Return the enhanced PRD with:
-- Technical implementation details developers can act on
-- Founder-friendly explanations in (parentheses)
-- Detailed user flows (5-7 steps each)
-- Comprehensive acceptance criteria (5+ bullets each)
-- Data model suggestions where relevant
-- API design hints for integrations
-- Keep the same markdown structure and section headers
-- Do NOT add sections that aren't in the original`;
+Return the enhanced PRD maintaining the same markdown structure. A developer should finish reading this knowing exactly what the founder wants and why, with enough detail to start building confidently.`;
 
     const completion = await this.getOpenAI().chat.completions.create({
       model: "gpt-4o-mini",
       messages: [{ role: "user", content: prompt }],
       temperature: 0.7,
-      max_tokens: 4000,
+      max_tokens: 5000,
     });
 
     return completion.choices[0].message.content || basicPRD;
@@ -798,38 +871,59 @@ Return the enhanced PRD with:
    * Enhance Working Agreement with AI (for paid users)
    */
   async enhanceWorkingAgreement(basicAgreement: string, responses: AssessmentResponses): Promise<string> {
-    const prompt = `You are a startup legal and operations advisor helping a non-technical founder create a working agreement with a developer.
+    const prompt = `You are enhancing a Working Agreement template to set up a successful founder-developer partnership.
 
-Given this Working Agreement template, enhance it by:
-1. Adding specific deliverables and milestones based on the project features
-2. Creating a realistic payment schedule with specific amounts based on the budget
-3. Adding detailed acceptance criteria for each milestone
-4. Including communication protocols with specific tools and response times
-5. Adding change request process with clear escalation paths
-6. Including IP and confidentiality clauses with specific terms
-7. Adding a risk mitigation section with contingencies
+YOUR TASK: Take the founder's ACTUAL assessment responses and create a practical working agreement. Use their real budget, timeline, features, and preferences - not generic templates.
 
-Original Agreement:
+CRITICAL RULES:
+- The "Original Agreement" is based on their REAL answers - enhance it with specifics
+- Payment amounts MUST be calculated from their Q6 budget - show actual dollar amounts
+- Deliverables MUST match their Q4/Q5 features exactly
+- Timeline MUST align with their Q7 answer
+- DO NOT invent terms or clauses - enhance what's there with their specific details
+
+WHAT TO ENHANCE:
+
+**SCOPE OF WORK**: Using their actual features (Q4/Q5) and description (Q12):
+- List THEIR specific features as deliverables
+- Define what "done" means for each of THEIR features
+- What's included vs excluded based on their selections
+
+**MILESTONES & PAYMENTS**: Calculate from their ACTUAL budget (Q6) and timeline (Q7):
+- If budget is "$10,000 - $20,000" → use $15,000 midpoint for calculations
+- Break into 3-4 milestones with specific dollar amounts
+- Tie each milestone to specific features from Q4/Q5
+- Example: "Milestone 1: $3,750 (25%) - User authentication + Dashboard setup"
+
+**TIMELINE**: Based on their Q7 answer:
+- If "ASAP (1-2 months)" → 4-8 week schedule
+- If "Standard (3-4 months)" → 12-16 week schedule
+- Map milestones to realistic dates
+
+**COMMUNICATION**: Based on their Q9/Q10/Q11 answers:
+- Q9 (management comfort) → How much check-in do they want?
+- Q10 (experience) → First-timers need more structure
+- Q11 (timezone) → Specific timezone expectations
+
+**ACCEPTANCE CRITERIA**: For their actual features:
+- Write acceptance criteria for THEIR Q4/Q5 selections
+- What does "complete" mean for each feature they want?
+
+This is a TEMPLATE requiring legal review. Include that disclaimer.
+
+Original Agreement (based on their answers):
 ${basicAgreement}
 
-Assessment Responses:
+Assessment Responses (raw data):
 ${JSON.stringify(responses, null, 2)}
 
-Return the enhanced agreement with:
-- Specific dollar amounts for each payment milestone
-- Detailed deliverables tied to features from the assessment
-- Clear acceptance criteria per milestone
-- Realistic timelines based on the project scope
-- Professional legal language (while remaining readable)
-- Keep the same markdown structure and section headers
-- Do NOT add sections that aren't in the original
-- Include a note that this is a template and should be reviewed by legal counsel`;
+Return the enhanced agreement with SPECIFIC numbers from their responses - actual dollar amounts, actual features, actual timeline. The founder should see their exact project reflected in this document.`;
 
     const completion = await this.getOpenAI().chat.completions.create({
       model: "gpt-4o-mini",
       messages: [{ role: "user", content: prompt }],
       temperature: 0.7,
-      max_tokens: 3500,
+      max_tokens: 4500,
     });
 
     return completion.choices[0].message.content || basicAgreement;

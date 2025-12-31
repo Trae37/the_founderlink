@@ -62,22 +62,10 @@ export async function generateAndSendBlueprintFromStripeSession(input: {
   // Enhance all 4 documents with AI for paid users
   console.log("[Blueprint] Enhancing documents with AI...");
   const [clarityBrief, hiringPlaybook, prd, workingAgreement] = await Promise.all([
-    prdGenerator.enhanceClarityBrief(basicClarityBrief, parsedResponses).catch((err) => {
-      console.error("[Blueprint] Failed to enhance Clarity Brief:", err);
-      return basicClarityBrief;
-    }),
-    prdGenerator.enhanceHiringPlaybook(basicHiringPlaybook, parsedResponses).catch((err) => {
-      console.error("[Blueprint] Failed to enhance Hiring Playbook:", err);
-      return basicHiringPlaybook;
-    }),
-    prdGenerator.enhancePRD(basicPrd, parsedResponses).catch((err) => {
-      console.error("[Blueprint] Failed to enhance PRD:", err);
-      return basicPrd;
-    }),
-    prdGenerator.enhanceWorkingAgreement(basicWorkingAgreement, parsedResponses).catch((err) => {
-      console.error("[Blueprint] Failed to enhance Working Agreement:", err);
-      return basicWorkingAgreement;
-    }),
+    prdGenerator.enhanceClarityBrief(basicClarityBrief, parsedResponses),
+    prdGenerator.enhanceHiringPlaybook(basicHiringPlaybook, parsedResponses),
+    prdGenerator.enhancePRD(basicPrd, parsedResponses),
+    prdGenerator.enhanceWorkingAgreement(basicWorkingAgreement, parsedResponses),
   ]);
   console.log("[Blueprint] AI enhancement complete");
 

@@ -1,4 +1,5 @@
 import { ENV } from "./env";
+import Anthropic from "@anthropic-ai/sdk";
 
 export type Role = "system" | "user" | "assistant" | "tool" | "function";
 
@@ -265,68 +266,59 @@ const normalizeResponseFormat = ({
   };
 };
 
+let anthropicClient: Anthropic | null = null;
+
+function getAnthropicClient(): Anthropic {
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    throw new Error("ANTHROPIC_API_KEY is not configured");
+  }
+  if (!anthropicClient) {
+    anthropicClient = new Anthropic({ apiKey, timeout: 30000 });
+  }
+  return anthropicClient;
+}
+
 export async function invokeLLM(params: InvokeParams): Promise<InvokeResult> {
-  assertApiKey();
+  const { messages } = params;
 
-  const {
-    messages,
-    tools,
-    toolChoice,
-    tool_choice,
-    outputSchema,
-    output_schema,
-    responseFormat,
-    response_format,
-  } = params;
+  // Convert messages to Anthropic format
+  const systemMessage = messages.find(m => m.role === "system");
+  const nonSystemMessages = messages.filter(m => m.role !== "system");
 
-  const payload: Record<string, unknown> = {
-    model: "gemini-2.5-flash",
-    messages: messages.map(normalizeMessage),
-  };
+  const anthropicMessages = nonSystemMessages.map(m => ({
+    role: m.role === "assistant" ? "assistant" as const : "user" as const,
+    content: typeof m.content === "string" ? m.content : JSON.stringify(m.content),
+  }));
 
-  if (tools && tools.length > 0) {
-    payload.tools = tools;
-  }
-
-  const normalizedToolChoice = normalizeToolChoice(
-    toolChoice || tool_choice,
-    tools
-  );
-  if (normalizedToolChoice) {
-    payload.tool_choice = normalizedToolChoice;
-  }
-
-  payload.max_tokens = 32768
-  payload.thinking = {
-    "budget_tokens": 128
-  }
-
-  const normalizedResponseFormat = normalizeResponseFormat({
-    responseFormat,
-    response_format,
-    outputSchema,
-    output_schema,
+  const client = getAnthropicClient();
+  const response = await client.messages.create({
+    model: "claude-sonnet-4-20250514",
+    max_tokens: 2000,
+    system: systemMessage ? (typeof systemMessage.content === "string" ? systemMessage.content : JSON.stringify(systemMessage.content)) : undefined,
+    messages: anthropicMessages,
   });
 
-  if (normalizedResponseFormat) {
-    payload.response_format = normalizedResponseFormat;
-  }
+  const textBlock = response.content.find(block => block.type === "text");
+  const content = textBlock?.text || "";
 
-  const response = await fetch(resolveApiUrl(), {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      authorization: `Bearer ${ENV.forgeApiKey}`,
+  // Return in OpenAI-compatible format for existing code
+  return {
+    id: response.id,
+    created: Date.now(),
+    model: response.model,
+    choices: [{
+      index: 0,
+      message: {
+        role: "assistant",
+        content,
+      },
+      finish_reason: response.stop_reason || "stop",
+    }],
+    usage: {
+      prompt_tokens: response.usage.input_tokens,
+      completion_tokens: response.usage.output_tokens,
+      total_tokens: response.usage.input_tokens + response.usage.output_tokens,
     },
-    body: JSON.stringify(payload),
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(
-      `LLM invoke failed: ${response.status} ${response.statusText} – ${errorText}`
-    );
-  }
-
-  return (await response.json()) as InvokeResult;
+  };
 }

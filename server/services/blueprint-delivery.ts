@@ -45,18 +45,41 @@ export async function generateAndSendBlueprintFromStripeSession(input: {
   const engine = new RecommendationEngine();
   const rec = await engine.generateRecommendations(parsedResponses as any, response.route);
 
-  const clarityBrief = prdGenerator.generateProjectClarityBrief(prdData, {
+  // Generate basic templates first
+  const basicClarityBrief = prdGenerator.generateProjectClarityBrief(prdData, {
     techStackSuggestion: rec.stackDescription,
     routeReasoning: rec.routeReasoning || rec.reasoning,
   });
-  const hiringPlaybook = prdGenerator.generateHiringPlaybook(prdData, {
+  const basicHiringPlaybook = prdGenerator.generateHiringPlaybook(prdData, {
     developerType: rec.developerType,
     techStackSuggestion: rec.stackDescription,
   });
-  const prd = prdGenerator.generatePRDDocument(prdData, {
+  const basicPrd = prdGenerator.generatePRDDocument(prdData, {
     techStackSuggestion: rec.stackDescription,
   });
-  const workingAgreement = prdGenerator.generateWorkingAgreement(prdData);
+  const basicWorkingAgreement = prdGenerator.generateWorkingAgreement(prdData);
+
+  // Enhance all 4 documents with AI for paid users
+  console.log("[Blueprint] Enhancing documents with AI...");
+  const [clarityBrief, hiringPlaybook, prd, workingAgreement] = await Promise.all([
+    prdGenerator.enhanceClarityBrief(basicClarityBrief, parsedResponses).catch((err) => {
+      console.error("[Blueprint] Failed to enhance Clarity Brief:", err);
+      return basicClarityBrief;
+    }),
+    prdGenerator.enhanceHiringPlaybook(basicHiringPlaybook, parsedResponses).catch((err) => {
+      console.error("[Blueprint] Failed to enhance Hiring Playbook:", err);
+      return basicHiringPlaybook;
+    }),
+    prdGenerator.enhancePRD(basicPrd, parsedResponses).catch((err) => {
+      console.error("[Blueprint] Failed to enhance PRD:", err);
+      return basicPrd;
+    }),
+    prdGenerator.enhanceWorkingAgreement(basicWorkingAgreement, parsedResponses).catch((err) => {
+      console.error("[Blueprint] Failed to enhance Working Agreement:", err);
+      return basicWorkingAgreement;
+    }),
+  ]);
+  console.log("[Blueprint] AI enhancement complete");
 
   const outputDir = path.join("/tmp", "generated-documents", response.email, input.stripeSessionId);
   const baseFilename = prdData.productName.replace(/\s+/g, "-").replace(/[^a-zA-Z0-9\-_]/g, "");

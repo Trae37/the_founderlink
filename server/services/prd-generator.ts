@@ -676,30 +676,32 @@ Developer Signature: _____________________ Date: _____________________
   }
 
   /**
-   * Enhance PRD with AI (for paid users)
+   * Enhance Project Clarity Brief with AI (for paid users)
    */
-  async enhancePRD(basicPRD: string, responses: AssessmentResponses): Promise<string> {
-    const prompt = `You are a technical product manager helping a non-technical founder create a clear PRD for developers.
+  async enhanceClarityBrief(basicBrief: string, responses: AssessmentResponses): Promise<string> {
+    const prompt = `You are a startup advisor helping a non-technical founder clarify their product vision.
 
-Given this basic PRD with placeholder text, enhance it by:
-1. Adding technical clarity for developers (e.g., specific tech stack recommendations, API requirements)
-2. Adding founder-friendly explanations in parentheses after technical terms
-3. Generating 3-step user flows for each feature
-4. Creating 3 bullet acceptance criteria for each feature
-5. Keeping "[Needs further exploration from client]" for truly vague answers
+Given this Project Clarity Brief template, enhance it by:
+1. Expanding the problem statement into a compelling narrative (2-3 sentences that paint a vivid picture of the pain)
+2. Elaborating on the solution with specific value propositions
+3. Creating a detailed target user persona with demographics, behaviors, and motivations
+4. Turning success criteria into SMART goals (Specific, Measurable, Achievable, Relevant, Time-bound)
+5. Adding strategic context and market positioning insights
+6. Providing actionable recommendations in the "Recommended Approach" section
 
-Original PRD:
-${basicPRD}
+Original Brief:
+${basicBrief}
 
 Assessment Responses:
 ${JSON.stringify(responses, null, 2)}
 
-Return the enhanced PRD in the same format, but with:
-- Technical details added for developers
-- Founder-friendly explanations in (parentheses)
-- Concrete user flows (3 steps each)
-- Specific acceptance criteria (3 bullets each)
-- Keep the same structure and section headers`;
+Return the enhanced brief with:
+- Rich, compelling narratives instead of bare facts
+- Specific personas with names and detailed profiles
+- Quantified success metrics where possible
+- Strategic insights a founder can use in pitch decks
+- Keep the same markdown structure and section headers
+- Do NOT add sections that aren't in the original`;
 
     const completion = await this.getOpenAI().chat.completions.create({
       model: "gpt-4o-mini",
@@ -708,42 +710,128 @@ Return the enhanced PRD in the same format, but with:
       max_tokens: 3000,
     });
 
-    return completion.choices[0].message.content || basicPRD;
+    return completion.choices[0].message.content || basicBrief;
   }
 
   /**
-   * Enhance SOW with AI (for paid users)
+   * Enhance Hiring Playbook with AI (for paid users)
    */
-  async enhanceSOW(basicSOW: string, responses: AssessmentResponses): Promise<string> {
-    const prompt = `You are a technical product manager helping a non-technical founder create a clear SOW for developers.
+  async enhanceHiringPlaybook(basicPlaybook: string, responses: AssessmentResponses): Promise<string> {
+    const prompt = `You are a technical hiring expert helping a non-technical founder hire their first developer.
 
-Given this basic SOW with placeholder text, enhance it by:
-1. Adding specific deliverables for each milestone
-2. Creating concrete acceptance criteria (3 bullets per milestone)
-3. Adding technical details for developers
-4. Adding founder-friendly explanations in parentheses
-5. Keeping "[Needs further exploration from client]" for truly vague answers
+Given this Hiring Playbook template, enhance it by:
+1. Adding specific technical skills to look for based on the project requirements
+2. Creating tailored interview questions specific to this project type
+3. Providing concrete red/green flag examples with real scenarios
+4. Adding salary/rate ranges and negotiation tips based on the budget
+5. Creating a detailed vetting checklist with weighted scoring criteria
+6. Adding platform-specific tips for where to find candidates
+7. Including a sample job post or outreach message template
 
-Original SOW:
-${basicSOW}
+Original Playbook:
+${basicPlaybook}
 
 Assessment Responses:
 ${JSON.stringify(responses, null, 2)}
 
-Return the enhanced SOW in the same format, but with:
-- Specific deliverables per milestone
-- Concrete acceptance criteria (3 bullets each)
-- Technical details for developers
-- Founder-friendly explanations in (parentheses)
-- Keep the same structure and section headers`;
+Return the enhanced playbook with:
+- Specific technical skills mapped to project features
+- Custom interview questions for this specific project
+- Realistic budget expectations and rate guidance
+- Actionable vetting criteria with scoring
+- Sample outreach/job post templates
+- Keep the same markdown structure and section headers
+- Do NOT add sections that aren't in the original`;
 
     const completion = await this.getOpenAI().chat.completions.create({
       model: "gpt-4o-mini",
       messages: [{ role: "user", content: prompt }],
       temperature: 0.7,
-      max_tokens: 2000,
+      max_tokens: 3500,
     });
 
-    return completion.choices[0].message.content || basicSOW;
+    return completion.choices[0].message.content || basicPlaybook;
+  }
+
+  /**
+   * Enhance PRD with AI (for paid users)
+   */
+  async enhancePRD(basicPRD: string, responses: AssessmentResponses): Promise<string> {
+    const prompt = `You are a technical product manager helping a non-technical founder create a clear PRD for developers.
+
+Given this basic PRD with placeholder text, enhance it by:
+1. Adding technical clarity for developers (e.g., specific tech stack recommendations, API requirements)
+2. Adding founder-friendly explanations in parentheses after technical terms
+3. Generating detailed 5-7 step user flows for each feature
+4. Creating comprehensive acceptance criteria (5+ bullets per feature)
+5. Adding technical architecture notes and data model hints
+6. Specifying API endpoints and integration requirements
+7. Adding edge cases and error handling requirements
+
+Original PRD:
+${basicPRD}
+
+Assessment Responses:
+${JSON.stringify(responses, null, 2)}
+
+Return the enhanced PRD with:
+- Technical implementation details developers can act on
+- Founder-friendly explanations in (parentheses)
+- Detailed user flows (5-7 steps each)
+- Comprehensive acceptance criteria (5+ bullets each)
+- Data model suggestions where relevant
+- API design hints for integrations
+- Keep the same markdown structure and section headers
+- Do NOT add sections that aren't in the original`;
+
+    const completion = await this.getOpenAI().chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [{ role: "user", content: prompt }],
+      temperature: 0.7,
+      max_tokens: 4000,
+    });
+
+    return completion.choices[0].message.content || basicPRD;
+  }
+
+  /**
+   * Enhance Working Agreement with AI (for paid users)
+   */
+  async enhanceWorkingAgreement(basicAgreement: string, responses: AssessmentResponses): Promise<string> {
+    const prompt = `You are a startup legal and operations advisor helping a non-technical founder create a working agreement with a developer.
+
+Given this Working Agreement template, enhance it by:
+1. Adding specific deliverables and milestones based on the project features
+2. Creating a realistic payment schedule with specific amounts based on the budget
+3. Adding detailed acceptance criteria for each milestone
+4. Including communication protocols with specific tools and response times
+5. Adding change request process with clear escalation paths
+6. Including IP and confidentiality clauses with specific terms
+7. Adding a risk mitigation section with contingencies
+
+Original Agreement:
+${basicAgreement}
+
+Assessment Responses:
+${JSON.stringify(responses, null, 2)}
+
+Return the enhanced agreement with:
+- Specific dollar amounts for each payment milestone
+- Detailed deliverables tied to features from the assessment
+- Clear acceptance criteria per milestone
+- Realistic timelines based on the project scope
+- Professional legal language (while remaining readable)
+- Keep the same markdown structure and section headers
+- Do NOT add sections that aren't in the original
+- Include a note that this is a template and should be reviewed by legal counsel`;
+
+    const completion = await this.getOpenAI().chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [{ role: "user", content: prompt }],
+      temperature: 0.7,
+      max_tokens: 3500,
+    });
+
+    return completion.choices[0].message.content || basicAgreement;
   }
 }

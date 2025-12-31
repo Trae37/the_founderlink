@@ -784,56 +784,41 @@ Developer Signature: _____________________ Date: _____________________
    * Enhance Project Clarity Brief with AI (for paid users)
    */
   async enhanceClarityBrief(basicBrief: string, responses: AssessmentResponses): Promise<string> {
-    const prompt = `You are enhancing a Project Clarity Brief to help a developer become a true partner in building this product.
+    const prompt = `INSTRUCTION: Generate the enhanced Project Clarity Brief immediately. Do NOT ask questions. Output ONLY the final document in markdown. Start with "**PROJECT CLARITY BRIEF**".
 
-YOUR TASK: Take the founder's ACTUAL responses from the assessment and enhance them - elaborate, clarify, and make them more actionable. You are NOT creating new content - you are making their real answers more detailed and useful.
+Enhance this Project Clarity Brief to help a developer become a true partner in building this product.
 
 CRITICAL RULES:
-- The "Original Brief" contains the founder's REAL answers - these are the source of truth
-- ENHANCE what they actually said - add depth, clarity, and actionable detail
-- DO NOT invent facts about the founder's specific business or make up statistics
-- If something is missing, write "[Founder to clarify: specific question]"
-- Quote or closely paraphrase their actual words when expanding on their answers
-
-APPLY YOUR KNOWLEDGE:
-- If the founder mentions an industry (e.g., healthcare, fintech), add relevant context about that industry's needs, regulations, and common patterns
-- If they describe a product type (e.g., marketplace, SaaS), explain what typically makes that type successful
-- If they mention technologies or integrations, provide context about how those work and what to consider
-- Add domain expertise that helps the developer understand the business context
-- This is NOT hallucinating - this is applying general knowledge to enrich their specific answers
+- Output ONLY the enhanced brief in markdown format
+- DO NOT ask for confirmation or include preamble
+- START your response with "**PROJECT CLARITY BRIEF**"
+- ENHANCE the founder's actual answers with depth and clarity
+- DO NOT invent facts - apply domain expertise to enrich their answers
 
 WHAT TO ENHANCE:
 
-**THE PROBLEM**: The founder described this in Q12. Take their exact description and:
-- Rewrite it as a clear, compelling problem statement
-- Break it down into specific pain points they mentioned
-- If they were vague, note what clarification would help
+**THE PROBLEM**: Rewrite as a clear, compelling problem statement with specific pain points.
 
-**THE SOLUTION**: Based on Q12 and their feature selections (Q4/Q5):
-- Articulate how their chosen features solve the problem they described
-- Connect each feature back to the pain points
-- Keep it grounded in what THEY said they want to build
+**THE SOLUTION**: Articulate how their chosen features solve the problem.
 
-**TARGET USER / ICP**: Based on their Q16 selection and Q12 context:
-- Expand on the user type they selected
-- Describe this user in the context of the problem they described
-- What can we infer about this user from their answers? (but don't invent demographics)
+**TARGET USER / ICP**: Expand on the user type with context from the problem they described.
 
-**SUCCESS METRICS**: Based on their Q13 answer:
-- Take their success definition and make it more specific and measurable
-- What would indicate their MVP is working based on what they said?
+**SUCCESS METRICS**: Make their success definition more specific and measurable.
 
-**CONSTRAINTS**: Based on Q6 (budget), Q7 (timeline), Q3 (platform), Q8 (build preference):
-- Summarize their actual constraints
-- Note any tensions between their ambitions and constraints
+**CONSTRAINTS**: Summarize budget, timeline, platform constraints. Note any tensions.
 
-Original Brief (contains the founder's real answers):
+APPLY YOUR KNOWLEDGE:
+- Add industry context (healthcare, fintech, etc.)
+- Add product type patterns (marketplace, SaaS, etc.)
+- Add integration/technology context
+
+Original Brief:
 ${basicBrief}
 
-Assessment Responses (raw data):
+Assessment Responses:
 ${JSON.stringify(responses, null, 2)}
 
-Return the enhanced brief maintaining the same markdown structure. Every enhancement should be traceable to something the founder actually said.`;
+BEGIN OUTPUT (start with "**PROJECT CLARITY BRIEF**"):`;
 
     const message = await this.getAnthropic().messages.create({
       model: "claude-3-5-haiku-20241022",
@@ -849,61 +834,39 @@ Return the enhanced brief maintaining the same markdown structure. Every enhance
    * Enhance Hiring Playbook with AI (for paid users)
    */
   async enhanceHiringPlaybook(basicPlaybook: string, responses: AssessmentResponses): Promise<string> {
-    const prompt = `You are enhancing a Hiring Playbook to help this specific founder find the right developer partner.
+    const prompt = `INSTRUCTION: Generate the enhanced Hiring Playbook immediately. Do NOT ask questions. Output ONLY the final document in markdown. Start with "**HIRING PLAYBOOK**".
 
-YOUR TASK: Take the founder's ACTUAL assessment responses and create tailored hiring guidance. Everything must be based on what THEY told us about their project, budget, timeline, and experience level.
+Enhance this Hiring Playbook with tailored guidance for this specific founder's project.
 
 CRITICAL RULES:
-- The "Original Playbook" contains guidance based on their REAL answers - enhance it
-- All technical skills must map directly to features they selected (Q4/Q5)
-- Budget guidance must use their exact budget range from Q6 - don't invent specific rates
-- All advice should account for their management comfort (Q9) and prior experience (Q10)
-- DO NOT make up specific market rates or salary statistics
-
-APPLY YOUR KNOWLEDGE:
-- If they selected specific features (Q4/Q5), explain what technical skills those features typically require
-- If they chose a product type (Q2), add context about what makes developers successful in that domain
-- If they mentioned integrations (Q14), explain what experience with those APIs/services looks like
-- Add industry context about hiring for their specific product category
-- Provide general guidance about developer types, engagement models, and vetting based on their constraints
-- This enriches their answers with practical expertise without inventing facts about their specific situation
+- Output ONLY the enhanced playbook in markdown format
+- DO NOT ask for confirmation or include preamble
+- START your response with "**HIRING PLAYBOOK**"
+- Base all recommendations on their ACTUAL assessment answers
+- Apply your expertise to their specific situation
 
 WHAT TO ENHANCE:
 
-**ROLE REQUIREMENTS**: Based on their actual selections:
-- Q3 (platform) → What platform expertise is needed
-- Q4/Q5 (features) → What specific technical skills these features require
-- Q8 (build preference) → No-code builder vs custom developer
-- Q2 (product type) → Domain experience that would help
+**ROLE REQUIREMENTS**: Map their features (Q4/Q5) to specific technical skills needed.
 
-**HIRING CONTEXT**: Based on their experience:
-- Q9 (management comfort) → How much guidance do they need in the hiring process?
-- Q10 (prior experience) → Tailor advice for first-time vs experienced hirers
-- Q11 (timezone) → Factor in their working hour preferences
+**BUDGET REALITY**: Use their exact budget (Q6) and be honest about tradeoffs.
 
-**BUDGET & TIMELINE REALITY**: Using their actual numbers:
-- Q6 (budget) → What's realistic within their stated range
-- Q7 (timeline) → How timeline affects hiring approach
-- Be honest about tradeoffs given THEIR constraints
+**INTERVIEW GUIDANCE**: Tailor questions to their product type and features.
 
-**INTERVIEW GUIDANCE**: Tailored to THIS project:
-- Questions about THEIR specific product type (Q2)
-- Questions about THEIR features (Q4/Q5)
-- Questions about THEIR problem (Q12)
+**SAMPLE JOB POST**: Write a COMPLETE, ready-to-post job listing for their project using their problem (Q12), features (Q4/Q5), budget (Q6), and timeline (Q7).
 
-**SAMPLE JOB POST**: Write an actual job post for THIS project using:
-- Their product description (Q12)
-- Their features (Q4/Q5)
-- Their budget range (Q6)
-- Their timeline (Q7)
+APPLY YOUR KNOWLEDGE:
+- What skills their specific features require
+- Hiring patterns for their product type
+- Realistic expectations for their budget range
 
-Original Playbook (based on their answers):
+Original Playbook:
 ${basicPlaybook}
 
-Assessment Responses (raw data):
+Assessment Responses:
 ${JSON.stringify(responses, null, 2)}
 
-Return the enhanced playbook maintaining the same markdown structure. Every recommendation should be specific to THIS founder's situation based on their actual answers.`;
+BEGIN OUTPUT (start with "**HIRING PLAYBOOK**"):`;
 
     const message = await this.getAnthropic().messages.create({
       model: "claude-3-5-haiku-20241022",
@@ -919,76 +882,55 @@ Return the enhanced playbook maintaining the same markdown structure. Every reco
    * Enhance PRD with AI (for paid users)
    */
   async enhancePRD(basicPRD: string, responses: AssessmentResponses): Promise<string> {
-    const prompt = `You are creating a DEVELOPER-READY Product Requirements Document (PRD). A developer should be able to read this and start building immediately.
+    const prompt = `INSTRUCTION: Generate the complete PRD document immediately. Do NOT ask questions or request confirmation. Output ONLY the final PRD markdown content.
+
+You are creating a DEVELOPER-READY Product Requirements Document (PRD). A developer should be able to read this and start building immediately.
 
 YOUR TASK: Replace ALL placeholders (anything in [brackets]) with REAL, SPECIFIC content based on the founder's assessment answers and your domain expertise.
 
-CRITICAL: DO NOT leave any [placeholders] or [TBD] in your output. Every section must have real content.
+CRITICAL RULES:
+- DO NOT leave any [placeholders] or [TBD] in your output
+- DO NOT ask for confirmation or clarification
+- DO NOT include preamble like "Here is the PRD" or "I'll generate..."
+- START your response with "**PRODUCT REQUIREMENTS DOCUMENT (PRD)**"
+- Output ONLY the PRD content in markdown format
 
 SOURCE MATERIAL:
 - The "Original PRD" contains the founder's actual answers from their assessment
 - Use their EXACT feature selections, problem description, and requirements as your foundation
 - Then ENHANCE with your knowledge of industry standards and best practices
 
-WHAT YOU MUST GENERATE (NO PLACEHOLDERS):
+GENERATE THESE SECTIONS WITH REAL CONTENT:
 
-**1. EXECUTIVE SUMMARY**: Rewrite their problem/solution clearly and compellingly.
+**EXECUTIVE SUMMARY**: Rewrite their problem/solution clearly and compellingly.
 
-**2. TARGET USER PROFILE**:
+**TARGET USER PROFILE**:
 - Expand their user type into a real profile
 - List 3-5 specific pain points based on the problem they described
 - List 3-5 user goals this product helps achieve
 
-**3. FOR EACH FEATURE - GENERATE REAL CONTENT**:
+**FOR EACH FEATURE**:
+- User Story: "As a [user type], I want to [feature] so that [benefit]."
+- Acceptance Criteria: 5-7 SPECIFIC, TESTABLE criteria like:
+  - [ ] User can create an account with email and password
+  - [ ] System validates email format before submission
+  - [ ] Password must be at least 8 characters with 1 number
+- User Flow: Step-by-step interaction flow
+- Technical Notes: Implementation considerations
 
-**User Story**: Write a complete user story:
-"As a [their user type], I want to [feature] so that [specific benefit connected to their problem]."
+**DATA MODEL**: Generate entity tables with fields and relationships based on features.
 
-**Acceptance Criteria**: Generate 5-7 SPECIFIC, TESTABLE criteria. Examples:
-- [ ] User can create an account with email and password
-- [ ] System validates email format before submission
-- [ ] User receives confirmation email within 30 seconds
-- [ ] Password must be at least 8 characters with 1 number
-NOT generic like "[ ] Feature works correctly"
+**API ENDPOINTS**: If custom build, generate RESTful endpoints table.
 
-**User Flow**: Write a COMPLETE step-by-step flow:
-1. User navigates to [specific page]
-2. User clicks [specific button]
-3. System displays [specific UI element]
-4. User enters [specific information]
-5. System validates and [specific action]
-6. User sees [specific confirmation]
+**INTEGRATIONS**: For each integration, explain API, auth method, and implementation notes.
 
-**Technical Notes**: Add real implementation considerations for this feature type.
-
-**4. DATA MODEL**: Generate a REAL data model based on their features:
-| Entity | Key Fields | Relationships |
-|--------|------------|---------------|
-| User | id, email, password_hash, name, created_at, updated_at | has_many: orders, has_one: profile |
-| [Generate 3-5 more entities based on their features] |
-
-**5. API ENDPOINTS**: If building custom/hybrid, generate real endpoints:
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| POST | /api/auth/register | Create new user account | No |
-| POST | /api/auth/login | Authenticate user | No |
-| [Generate 5-10 endpoints based on features] |
-
-**6. INTEGRATIONS**: For each integration they selected, explain:
-- What API/service to use
-- Authentication method (API key, OAuth, etc.)
-- Key endpoints/webhooks needed
-- Common implementation gotchas
-
-**7. OPEN QUESTIONS**: Generate 3-5 SPECIFIC questions for the founder based on gaps:
-- Not generic like "What do you want?"
-- Specific like "Should users be able to edit their profile after creation, or is it read-only?"
+**OPEN QUESTIONS**: 3-5 specific questions for the founder about gaps in requirements.
 
 APPLY YOUR DOMAIN EXPERTISE:
-- If they're building a marketplace: add typical marketplace entities (listings, transactions, reviews)
-- If they're building SaaS: add subscription/billing considerations
-- If they mentioned specific integrations: explain implementation patterns
-- If they have compliance needs: explain what that typically requires
+- Marketplace → add listings, transactions, reviews entities
+- SaaS → add subscription/billing considerations
+- Specific integrations → explain implementation patterns
+- Compliance needs → explain typical requirements
 
 Original PRD (contains their real answers):
 ${basicPRD}
@@ -996,7 +938,7 @@ ${basicPRD}
 Assessment Responses (raw data):
 ${JSON.stringify(responses, null, 2)}
 
-OUTPUT: A complete, developer-ready PRD with NO placeholders. Every [bracket] in the original must be replaced with real content. The developer should be able to start coding after reading this.`;
+BEGIN OUTPUT (start with "**PRODUCT REQUIREMENTS DOCUMENT (PRD)**"):`;
 
     const message = await this.getAnthropic().messages.create({
       model: "claude-3-5-haiku-20241022",
@@ -1012,61 +954,37 @@ OUTPUT: A complete, developer-ready PRD with NO placeholders. Every [bracket] in
    * Enhance Working Agreement with AI (for paid users)
    */
   async enhanceWorkingAgreement(basicAgreement: string, responses: AssessmentResponses): Promise<string> {
-    const prompt = `You are enhancing a Working Agreement template to set up a successful founder-developer partnership.
+    const prompt = `INSTRUCTION: Generate the enhanced Working Agreement immediately. Do NOT ask questions. Output ONLY the final document in markdown. Start with "**WORKING AGREEMENT (TEMPLATE)**".
 
-YOUR TASK: Take the founder's ACTUAL assessment responses and create a practical working agreement. Use their real budget, timeline, features, and preferences - not generic templates.
+Enhance this Working Agreement with specific details from the founder's project.
 
 CRITICAL RULES:
-- The "Original Agreement" is based on their REAL answers - enhance it with specifics
-- Payment amounts MUST be calculated from their Q6 budget - show actual dollar amounts
-- Deliverables MUST match their Q4/Q5 features exactly
-- Timeline MUST align with their Q7 answer
-- DO NOT invent terms or clauses - enhance what's there with their specific details
-
-APPLY YOUR KNOWLEDGE:
-- If they selected specific features (Q4/Q5), explain what "done" typically means for those feature types
-- If they chose a timeline (Q7), add context about realistic milestone pacing for their scope
-- If they indicated management comfort level (Q9), suggest appropriate communication structures
-- Add standard best practices for working agreements in software development
-- Include typical acceptance criteria patterns for their feature types
-- This adds professional structure to their answers without inventing facts about their project
+- Output ONLY the enhanced agreement in markdown format
+- DO NOT ask for confirmation or include preamble
+- START your response with "**WORKING AGREEMENT (TEMPLATE)**"
+- Include disclaimer that this requires legal review
+- Use ACTUAL numbers from their responses
 
 WHAT TO ENHANCE:
 
-**SCOPE OF WORK**: Using their actual features (Q4/Q5) and description (Q12):
-- List THEIR specific features as deliverables
-- Define what "done" means for each of THEIR features
-- What's included vs excluded based on their selections
+**SCOPE OF WORK**: List their exact features (Q4/Q5) as deliverables with "done" definitions.
 
-**MILESTONES & PAYMENTS**: Calculate from their ACTUAL budget (Q6) and timeline (Q7):
-- If budget is "$10,000 - $20,000" → use $15,000 midpoint for calculations
-- Break into 3-4 milestones with specific dollar amounts
-- Tie each milestone to specific features from Q4/Q5
-- Example: "Milestone 1: $3,750 (25%) - User authentication + Dashboard setup"
+**MILESTONES & PAYMENTS**: Calculate from their budget (Q6):
+- Use midpoint of their range for calculations
+- Break into 3-4 milestones with dollar amounts
+- Example: "Milestone 1: $3,750 (25%) - User auth + Dashboard"
 
-**TIMELINE**: Based on their Q7 answer:
-- If "ASAP (1-2 months)" → 4-8 week schedule
-- If "Standard (3-4 months)" → 12-16 week schedule
-- Map milestones to realistic dates
+**TIMELINE**: Map their Q7 timeline to specific milestone dates.
 
-**COMMUNICATION**: Based on their Q9/Q10/Q11 answers:
-- Q9 (management comfort) → How much check-in do they want?
-- Q10 (experience) → First-timers need more structure
-- Q11 (timezone) → Specific timezone expectations
+**ACCEPTANCE CRITERIA**: Define "complete" for each of their features.
 
-**ACCEPTANCE CRITERIA**: For their actual features:
-- Write acceptance criteria for THEIR Q4/Q5 selections
-- What does "complete" mean for each feature they want?
-
-This is a TEMPLATE requiring legal review. Include that disclaimer.
-
-Original Agreement (based on their answers):
+Original Agreement:
 ${basicAgreement}
 
-Assessment Responses (raw data):
+Assessment Responses:
 ${JSON.stringify(responses, null, 2)}
 
-Return the enhanced agreement with SPECIFIC numbers from their responses - actual dollar amounts, actual features, actual timeline. The founder should see their exact project reflected in this document.`;
+BEGIN OUTPUT (start with "**WORKING AGREEMENT (TEMPLATE)**"):`;
 
     const message = await this.getAnthropic().messages.create({
       model: "claude-3-5-haiku-20241022",

@@ -74,6 +74,7 @@ export async function generateAndSendBlueprintFromStripeSession(input: {
   const outputDir = path.join("/tmp", "generated-documents", response.email, input.stripeSessionId);
   const baseFilename = prdData.productName.replace(/\s+/g, "-").replace(/[^a-zA-Z0-9\-_]/g, "");
 
+  // Force markdown for now (faster than DOCX, fits in timeout)
   const exporter = new DocumentExporter();
   const exported = await exporter.exportDocumentSet(
     [
@@ -84,14 +85,14 @@ export async function generateAndSendBlueprintFromStripeSession(input: {
     ],
     baseFilename,
     outputDir,
-    input.blueprintFormat
+    "md" // Force markdown for speed - add docx/pdf later
   );
 
   const emailSent = await sendBlueprintEmail({
     email: response.email,
     name: response.name || "",
     route: response.route,
-    format: input.blueprintFormat,
+    format: "md", // Force markdown for speed
     files: {
       clarityBrief: exported["clarity-brief"],
       hiringPlaybook: exported["hiring-playbook"],

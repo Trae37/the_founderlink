@@ -485,6 +485,8 @@ What to test: a small, real part of your MVP scope.
   generatePRDDocument(data: PRDData, input?: { techStackSuggestion?: string }): string {
     const features = data.topFeatures.length ? data.topFeatures : ["[Needs further exploration from client]"];
     const integrations = data.integrations.length ? data.integrations : ["None specified"];
+    const mvpFeatures = features.slice(0, 5);
+    const postMvpFeatures = features.slice(5);
 
     return `**PRODUCT REQUIREMENTS DOCUMENT (PRD)**
 
@@ -493,8 +495,12 @@ What to test: a small, real part of your MVP scope.
 - Version: 1.0
 - Last Updated: ${data.currentDate}
 - Author: ${data.userName}
+- Status: Ready for Developer Review
 
-**2. PRODUCT OVERVIEW**
+---
+
+**2. EXECUTIVE SUMMARY**
+
 **Problem Statement:**
 ${data.problem}
 
@@ -507,40 +513,136 @@ ${data.primaryUser}
 **Success Metrics:**
 ${data.successMetrics}
 
-**3. USER TYPES / PERSONAS**
-| User Type | Description | Primary Goals |
-|---|---|---|
-| ${data.primaryUser.split('.')[0] || 'Primary user'} | ${data.primaryUser} | ${data.painPoints.length > 0 ? `Solve: ${data.painPoints[0]}` : '[TBD]'} |
+**MVP Scope:** ${mvpFeatures.length} core features | **Timeline:** ${data.timelineWeeks} weeks | **Budget:** ${data.totalBudget}
 
-**4. FEATURE SPECIFICATIONS**
-${features
+---
+
+**3. TARGET USER PROFILE**
+
+**Primary User Type:** ${data.primaryUser.split('.')[0] || 'Primary user'}
+
+**User Context:**
+${data.primaryUser}
+
+**Pain Points This Product Solves:**
+${data.painPoints.length > 0 ? data.painPoints.map(p => `- ${p}`).join("\n") : "- [AI will expand based on problem statement]"}
+
+**User Goals:**
+- [AI will generate based on problem/solution]
+
+---
+
+**4. MVP FEATURE SPECIFICATIONS**
+
+${mvpFeatures
   .map(
-    (f) => `**Feature: ${f}**\n- Priority: Must-have\n- User Story: As a user, I want to ${f.toLowerCase()} so that [benefit].\n- Description: [Detailed description needs further exploration from client]\n- Acceptance Criteria:\n  - [ ] [TBD]\n  - [ ] [TBD]\n  - [ ] [TBD]\n- Notes/Constraints: [TBD]`
+    (f, i) => `### Feature ${i + 1}: ${f}
+
+**Priority:** P${i === 0 ? '0 - Critical' : i < 3 ? '1 - High' : '2 - Medium'}
+
+**User Story:**
+As a ${data.primaryUser.split('.')[0] || 'user'}, I want to ${f.toLowerCase()} so that [AI will connect to problem statement].
+
+**Acceptance Criteria:**
+- [ ] [AI will generate 5-7 specific, testable criteria]
+- [ ] [Based on feature type and industry standards]
+- [ ] [Include edge cases]
+
+**User Flow:**
+1. User [action]
+2. System [response]
+3. User [sees/does]
+4. [Complete flow]
+
+**Technical Notes:**
+- [AI will add implementation considerations]
+- [Integration points if applicable]`
   )
-  .join("\n\n")}
+  .join("\n\n---\n\n")}
 
-**5. USER FLOWS**
-${features.slice(0, 3).map((f, i) => `**Flow ${i + 1}: ${f}**\n1. [Step 1]\n2. [Step 2]\n3. [Step 3]`).join("\n\n")}
+---
 
-**6. TECHNICAL REQUIREMENTS**
-- Platform: ${data.platform}
-- Integrations: ${integrations.join(", ")}
-- Tech stack suggestion: ${input?.techStackSuggestion || "TBD"}
-- Compliance / security: ${data.security}
+**5. DATA MODEL (CORE ENTITIES)**
 
-**7. DESIGN REQUIREMENTS**
-[Needs further exploration from client]
+*[AI will generate based on features - example structure:]*
 
-**8. OUT OF SCOPE (EXPLICITLY)**
-${data.topFeatures.slice(3).length ? data.topFeatures.slice(3).map((f) => `- ${f}`).join("\n") : "- [TBD]"}
+| Entity | Key Fields | Relationships |
+|--------|------------|---------------|
+| User | id, email, name, created_at | has_many: [related entities] |
+| [Entity2] | [fields] | [relationships] |
+| [Entity3] | [fields] | [relationships] |
 
-**9. ASSUMPTIONS**
-- [Assumption 1]
-- [Assumption 2]
+---
 
-**10. OPEN QUESTIONS**
-- [ ] [Question 1]
-- [ ] [Question 2]
+**6. API ENDPOINTS (IF APPLICABLE)**
+
+*[AI will generate if building custom/hybrid - example structure:]*
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| POST | /api/[resource] | Create new [resource] | Yes |
+| GET | /api/[resource]/:id | Get [resource] by ID | Yes |
+
+---
+
+**7. TECHNICAL REQUIREMENTS**
+
+**Platform:** ${data.platform}
+**Build Approach:** ${data.buildPreference || 'Not specified'}
+**Tech Stack:** ${input?.techStackSuggestion || "[AI will recommend based on requirements]"}
+
+**Integrations Required:**
+${integrations.map(i => `- ${i}: [AI will add implementation notes]`).join("\n")}
+
+**Security & Compliance:**
+${data.security || "Standard security practices"}
+
+---
+
+**8. POST-MVP FEATURES (BACKLOG)**
+
+${postMvpFeatures.length ? postMvpFeatures.map((f, i) => `${i + 1}. ${f}`).join("\n") : "- Features beyond MVP scope to be defined after launch"}
+
+---
+
+**9. OUT OF SCOPE (EXPLICITLY)**
+
+The following are NOT included in this MVP:
+- Features not listed in Section 4
+- Mobile apps (unless specified in platform)
+- Advanced analytics/reporting
+- Multi-language support
+- [AI will add based on context]
+
+---
+
+**10. ASSUMPTIONS & DEPENDENCIES**
+
+**Assumptions:**
+- [AI will generate based on requirements]
+- [Technical assumptions]
+- [Business assumptions]
+
+**Dependencies:**
+- Third-party services: ${integrations.join(", ") || "None specified"}
+- [AI will add relevant dependencies]
+
+---
+
+**11. OPEN QUESTIONS FOR FOUNDER**
+
+*[AI will generate specific questions based on gaps in requirements]*
+
+- [ ] [Question about unclear requirement]
+- [ ] [Prioritization question]
+- [ ] [Technical decision needing input]
+
+---
+
+**12. GLOSSARY**
+
+*[AI will define any domain-specific terms used]*
+
 `;
   }
 
@@ -817,76 +919,88 @@ Return the enhanced playbook maintaining the same markdown structure. Every reco
    * Enhance PRD with AI (for paid users)
    */
   async enhancePRD(basicPRD: string, responses: AssessmentResponses): Promise<string> {
-    const prompt = `You are enhancing a Product Requirements Document (PRD) to serve as the complete "source of truth" for a developer partner.
+    const prompt = `You are creating a DEVELOPER-READY Product Requirements Document (PRD). A developer should be able to read this and start building immediately.
 
-YOUR TASK: Take the founder's ACTUAL assessment responses and transform them into a comprehensive PRD. The developer should understand not just WHAT to build, but WHY - so they can make smart decisions and contribute to the vision.
+YOUR TASK: Replace ALL placeholders (anything in [brackets]) with REAL, SPECIFIC content based on the founder's assessment answers and your domain expertise.
 
-CRITICAL RULES:
-- The "Original PRD" contains the founder's REAL answers - these are your source material
-- ENHANCE their actual feature selections, problem description, and requirements
-- DO NOT invent user data, statistics, or technical requirements they didn't mention
-- If clarification is needed, write "[Developer should confirm with founder: specific question]"
+CRITICAL: DO NOT leave any [placeholders] or [TBD] in your output. Every section must have real content.
 
-APPLY YOUR KNOWLEDGE:
-- If they describe a problem (Q12), add context about why this problem matters in their industry
-- If they selected features (Q4/Q5), explain technical considerations and best practices for implementing them
-- If they chose a platform (Q3), add relevant platform-specific requirements and patterns
-- If they mentioned integrations (Q14), explain API considerations, authentication flows, and common gotchas
-- If they selected compliance needs (Q5), explain what those compliance requirements typically entail
-- Add architectural guidance and technical context that helps the developer make smart decisions
-- This is applying expertise to their answers, not inventing facts about their specific business
+SOURCE MATERIAL:
+- The "Original PRD" contains the founder's actual answers from their assessment
+- Use their EXACT feature selections, problem description, and requirements as your foundation
+- Then ENHANCE with your knowledge of industry standards and best practices
 
-WHAT TO ENHANCE:
+WHAT YOU MUST GENERATE (NO PLACEHOLDERS):
 
-**PRODUCT OVERVIEW**: From their Q12 description:
-- Rewrite their problem statement clearly and compellingly
-- Articulate their solution based on what they described
-- State the core value proposition in one sentence
+**1. EXECUTIVE SUMMARY**: Rewrite their problem/solution clearly and compellingly.
 
-**TARGET USER**: From Q16 and Q12:
-- Expand on the user type they selected
-- Describe this user's context based on the problem they described
-- What we can infer about user needs from their answers
-- DO NOT invent demographics or personas - use what they told us
+**2. TARGET USER PROFILE**:
+- Expand their user type into a real profile
+- List 3-5 specific pain points based on the problem they described
+- List 3-5 user goals this product helps achieve
 
-**FEATURE SPECIFICATIONS**: For EACH feature from Q4 and Q5:
-- User Story format: As a [their Q16 user], I want [feature] so that [connect to Q12 problem]
-- Acceptance criteria (5-7 bullets based on what this feature should accomplish)
-- User flow (step-by-step based on logical interaction)
-- Edge cases to consider
-- How this feature connects to their Q14 integrations if relevant
+**3. FOR EACH FEATURE - GENERATE REAL CONTENT**:
 
-**TECHNICAL CONTEXT**: Based on their actual choices:
-- Q3 (platform) → Platform requirements and considerations
-- Q8 (build preference) → Tech stack direction (no-code vs custom)
-- Q14 (integrations) → Integration requirements and API needs
-- Q5 (day-one needs) → Compliance, auth, payments requirements they selected
+**User Story**: Write a complete user story:
+"As a [their user type], I want to [feature] so that [specific benefit connected to their problem]."
 
-**SUCCESS CRITERIA**: From Q13:
-- Expand their success definition into measurable acceptance criteria
-- What would indicate the MVP is achieving its goals?
+**Acceptance Criteria**: Generate 5-7 SPECIFIC, TESTABLE criteria. Examples:
+- [ ] User can create an account with email and password
+- [ ] System validates email format before submission
+- [ ] User receives confirmation email within 30 seconds
+- [ ] Password must be at least 8 characters with 1 number
+NOT generic like "[ ] Feature works correctly"
 
-**SCOPE & CONSTRAINTS**:
-- Q6 (budget) → What's realistic to build
-- Q7 (timeline) → Phasing considerations
-- What's explicitly MVP vs post-MVP based on their priorities
+**User Flow**: Write a COMPLETE step-by-step flow:
+1. User navigates to [specific page]
+2. User clicks [specific button]
+3. System displays [specific UI element]
+4. User enters [specific information]
+5. System validates and [specific action]
+6. User sees [specific confirmation]
 
-**OPEN QUESTIONS**: Things the developer should discuss with the founder:
-- Ambiguities in their responses
-- Technical decisions that need founder input
-- Prioritization questions
+**Technical Notes**: Add real implementation considerations for this feature type.
 
-Original PRD (based on their answers):
+**4. DATA MODEL**: Generate a REAL data model based on their features:
+| Entity | Key Fields | Relationships |
+|--------|------------|---------------|
+| User | id, email, password_hash, name, created_at, updated_at | has_many: orders, has_one: profile |
+| [Generate 3-5 more entities based on their features] |
+
+**5. API ENDPOINTS**: If building custom/hybrid, generate real endpoints:
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| POST | /api/auth/register | Create new user account | No |
+| POST | /api/auth/login | Authenticate user | No |
+| [Generate 5-10 endpoints based on features] |
+
+**6. INTEGRATIONS**: For each integration they selected, explain:
+- What API/service to use
+- Authentication method (API key, OAuth, etc.)
+- Key endpoints/webhooks needed
+- Common implementation gotchas
+
+**7. OPEN QUESTIONS**: Generate 3-5 SPECIFIC questions for the founder based on gaps:
+- Not generic like "What do you want?"
+- Specific like "Should users be able to edit their profile after creation, or is it read-only?"
+
+APPLY YOUR DOMAIN EXPERTISE:
+- If they're building a marketplace: add typical marketplace entities (listings, transactions, reviews)
+- If they're building SaaS: add subscription/billing considerations
+- If they mentioned specific integrations: explain implementation patterns
+- If they have compliance needs: explain what that typically requires
+
+Original PRD (contains their real answers):
 ${basicPRD}
 
 Assessment Responses (raw data):
 ${JSON.stringify(responses, null, 2)}
 
-Return the enhanced PRD maintaining the same markdown structure. A developer should finish reading this knowing exactly what the founder wants and why, with enough detail to start building confidently.`;
+OUTPUT: A complete, developer-ready PRD with NO placeholders. Every [bracket] in the original must be replaced with real content. The developer should be able to start coding after reading this.`;
 
     const message = await this.getAnthropic().messages.create({
       model: "claude-3-5-haiku-20241022",
-      max_tokens: 3000,
+      max_tokens: 4000, // PRD needs more tokens for complete developer-ready content
       messages: [{ role: "user", content: prompt }],
     });
 

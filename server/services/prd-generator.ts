@@ -53,7 +53,10 @@ export class PRDGenerator {
     }
 
     if (!this.openai) {
-      this.openai = new OpenAI({ apiKey });
+      this.openai = new OpenAI({
+        apiKey,
+        timeout: 55000, // 55 second timeout to fit within Vercel's 60s limit
+      });
     }
 
     return this.openai;
@@ -734,7 +737,7 @@ Return the enhanced brief maintaining the same markdown structure. Every enhance
       model: "gpt-4o-mini",
       messages: [{ role: "user", content: prompt }],
       temperature: 0.7,
-      max_tokens: 4000,
+      max_tokens: 2500,
     });
 
     return completion.choices[0].message.content || basicBrief;
@@ -804,7 +807,7 @@ Return the enhanced playbook maintaining the same markdown structure. Every reco
       model: "gpt-4o-mini",
       messages: [{ role: "user", content: prompt }],
       temperature: 0.7,
-      max_tokens: 4500,
+      max_tokens: 2500,
     });
 
     return completion.choices[0].message.content || basicPlaybook;
@@ -885,7 +888,7 @@ Return the enhanced PRD maintaining the same markdown structure. A developer sho
       model: "gpt-4o-mini",
       messages: [{ role: "user", content: prompt }],
       temperature: 0.7,
-      max_tokens: 5000,
+      max_tokens: 3000,
     });
 
     return completion.choices[0].message.content || basicPRD;
@@ -955,7 +958,7 @@ Return the enhanced agreement with SPECIFIC numbers from their responses - actua
       model: "gpt-4o-mini",
       messages: [{ role: "user", content: prompt }],
       temperature: 0.7,
-      max_tokens: 4500,
+      max_tokens: 2500,
     });
 
     return completion.choices[0].message.content || basicAgreement;

@@ -133,7 +133,7 @@ export default function Success() {
           {/* Disclaimer */}
           <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-sm">
             <p className="text-sm text-blue-800">
-              <strong>Note:</strong> It may take a few minutes for your documents to appear here while our AI enhances them.
+              <strong>Note:</strong> It may take a few minutes for your documents to appear here while our system enhances them.
               Don't worry - they'll also be sent directly to your email, so check your inbox!
             </p>
           </div>

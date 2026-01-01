@@ -50,8 +50,8 @@ export default function PaymentCancel() {
               <h3 className="font-bold text-gray-900 mb-2">Need Help?</h3>
               <p className="text-gray-700">
                 If you're experiencing issues, reach out to us at{" "}
-                <a href="mailto:hello@thefounderlink.com" className="text-blue-600 hover:underline">
-                  hello@thefounderlink.com
+                <a href="mailto:support@thefounderlink.com" className="text-blue-600 hover:underline">
+                  support@thefounderlink.com
                 </a>
               </p>
             </div>
@@ -110,8 +110,8 @@ export default function PaymentCancel() {
         <div className="text-center">
           <p className="text-gray-600">
             Questions? Reach out to us at{" "}
-            <a href="mailto:hello@thefounderlink.com" className="text-blue-600 hover:underline">
-              hello@thefounderlink.com
+            <a href="mailto:support@thefounderlink.com" className="text-blue-600 hover:underline">
+              support@thefounderlink.com
             </a>
           </p>
         </div>

@@ -285,7 +285,7 @@ export default function Success() {
         </div>
 
         {/* Bottom CTA */}
-        <div className="text-center">
+        <div className="text-center mb-12">
           <button
             onClick={() => navigate("/")}
             className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-neutral-300 text-neutral-900 rounded-sm hover:bg-neutral-50 transition-colors font-medium"
@@ -293,6 +293,19 @@ export default function Success() {
             Back to Home
             <ArrowRight className="w-4 h-4" />
           </button>
+        </div>
+
+        {/* Contact Support */}
+        <div className="text-center border-t border-neutral-200 pt-8">
+          <p className="text-sm text-neutral-600">
+            Having trouble or need help?{" "}
+            <a
+              href="mailto:support@thefounderlink.com"
+              className="text-blue-600 hover:text-blue-800 underline font-medium"
+            >
+              Contact us at support@thefounderlink.com
+            </a>
+          </p>
         </div>
       </div>
     </div>

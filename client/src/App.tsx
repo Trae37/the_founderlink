@@ -20,6 +20,8 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdminMatches from "./pages/AdminMatches";
 import EmailCapture from "./pages/EmailCapture";
 import TestResults from "./pages/TestResults";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
 
 
 function Router() {
@@ -41,6 +43,8 @@ function Router() {
       <Route path={"/payment-cancel"} component={PaymentCancel} />
       <Route path={"/admin"} component={AdminDashboard} />
       <Route path={"/admin/matches"} component={AdminMatches} />
+      <Route path={"/privacy"} component={Privacy} />
+      <Route path={"/terms"} component={Terms} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

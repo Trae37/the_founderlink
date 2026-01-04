@@ -177,10 +177,14 @@ export default function VersionB() {
 
         {/* Footer */}
         <footer className="py-12 px-6 border-t border-gray-200">
-          <div className="container mx-auto max-w-6xl text-center">
+          <div className="container mx-auto max-w-6xl flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-slate-600">
-              The Founder Link • Your bridge to world-class technical talent.
+              © 2026 The Founder Link
             </p>
+            <div className="flex gap-4 text-sm text-slate-500">
+              <a href="/privacy" className="hover:text-slate-900 transition-colors">Privacy</a>
+              <a href="/terms" className="hover:text-slate-900 transition-colors">Terms</a>
+            </div>
           </div>
         </footer>
       </main>

@@ -1,24 +1,4 @@
-import { useState } from "react";
-
 export default function VersionA() {
-  const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email.trim()) {
-      setIsLoading(true);
-      console.log("Email submitted:", email);
-      setTimeout(() => {
-        setSubmitted(true);
-        setEmail("");
-        setIsLoading(false);
-        setTimeout(() => setSubmitted(false), 4000);
-      }, 1000);
-    }
-  };
-
   return (
     <div className="min-h-screen flex flex-col bg-white">
       {/* Navigation */}
@@ -54,42 +34,54 @@ export default function VersionA() {
               <div className="max-w-2xl">
                 {/* Headline */}
                 <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-slate-950 mb-6 leading-tight">
-                  Bad Developer Hires Are Killing Your Startup. Here's How to Stop It.
+                  Stop Guessing How to Hire Your First Developer
                 </h1>
 
                 {/* Subheadline */}
-                <p className="text-lg md:text-xl font-semibold text-slate-700 mb-10 leading-relaxed">
-                  Find and hire great developers in 7 days. Plus, get your Smart Fit Snapshot within 24 hours so you know which devs you need. No tech background needed.
+                <p className="text-lg md:text-xl font-semibold text-slate-700 mb-6 leading-relaxed">
+                  Get a free, custom build roadmap and role description in 10 minutes. Perfect for non-technical founders.
                 </p>
 
-                {/* Email Form */}
-                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 mb-6 max-w-lg">
-                  <input
-                    type="email"
-                    placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    disabled={isLoading}
-                    className="px-5 py-4 rounded-lg border-2 border-gray-300 bg-white text-slate-950 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500/50 flex-1 sm:flex-none transition"
-                  />
-                  <button
-                    type="submit"
-                    disabled={isLoading}
-                    className="bg-pink-500 hover:bg-pink-600 text-white font-bold px-8 py-4 rounded-lg transition-all duration-200 whitespace-nowrap shadow-lg shadow-pink-500/30 disabled:opacity-50"
+                {/* Body */}
+                <p className="text-base md:text-lg text-slate-600 mb-6 leading-relaxed">
+                  Don't burn your budget on the wrong hire. Answer a few questions about your idea, timeline, and budget to get an instant hiring strategy.
+                </p>
+
+                {/* Bullet Points */}
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-center gap-3 text-slate-700">
+                    <span className="text-pink-500 font-bold">✓</span>
+                    Instant analysis of your project scope
+                  </li>
+                  <li className="flex items-center gap-3 text-slate-700">
+                    <span className="text-pink-500 font-bold">✓</span>
+                    Clear recommendation: Agency vs. Freelancer vs. CTO
+                  </li>
+                  <li className="flex items-center gap-3 text-slate-700">
+                    <span className="text-pink-500 font-bold">✓</span>
+                    Actionable next steps to start building today
+                  </li>
+                </ul>
+
+                {/* CTAs */}
+                <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                  <a
+                    href="/assessment"
+                    className="bg-pink-500 hover:bg-pink-600 text-white font-bold px-8 py-4 rounded-lg transition-all duration-200 whitespace-nowrap shadow-lg shadow-pink-500/30 text-center"
                   >
-                    {isLoading ? "Sending..." : "Get The Smart Selection Sprint"}
-                  </button>
-                </form>
+                    Get My Free Hiring Roadmap
+                  </a>
+                  <a
+                    href="#how-it-works"
+                    className="border-2 border-slate-300 hover:border-slate-400 text-slate-700 font-bold px-8 py-4 rounded-lg transition-all duration-200 whitespace-nowrap text-center"
+                  >
+                    See how it works
+                  </a>
+                </div>
 
-                {submitted && (
-                  <div className="text-sm text-pink-600 font-medium mb-6">
-                    Check your inbox! The Smart Selection Sprint is on its way.
-                  </div>
-                )}
-
+                {/* Trust Line */}
                 <p className="text-sm text-slate-600">
-                  No spam. No credit card. Unsubscribe anytime.
+                  100% Private • No Credit Card Required
                 </p>
               </div>
             </div>
@@ -111,67 +103,79 @@ export default function VersionA() {
               <div>
                 {/* Headline */}
                 <h1 className="text-3xl md:text-4xl font-bold text-slate-950 mb-4 leading-tight">
-                  Bad Developer Hires Are Killing Your Startup. Here's How to Stop It.
+                  Stop Guessing How to Hire Your First Developer
                 </h1>
 
                 {/* Subheadline */}
-                <p className="text-base md:text-lg font-semibold text-slate-700 mb-8 leading-relaxed">
-                  Find and hire great developers in 7 days. Plus, get your Smart Fit Snapshot within 24 hours so you know which devs you need. No tech background needed.
+                <p className="text-base md:text-lg font-semibold text-slate-700 mb-4 leading-relaxed">
+                  Get a free, custom build roadmap and role description in 10 minutes. Perfect for non-technical founders.
                 </p>
 
-                {/* Email Form */}
-                <form onSubmit={handleSubmit} className="flex flex-col gap-3 mb-6">
-                  <input
-                    type="email"
-                    placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    disabled={isLoading}
-                    className="px-5 py-4 rounded-lg border-2 border-gray-300 bg-white text-slate-950 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500/50 transition"
-                  />
-                  <button
-                    type="submit"
-                    disabled={isLoading}
-                    className="bg-pink-500 hover:bg-pink-600 text-white font-bold px-8 py-4 rounded-lg transition-all duration-200 shadow-lg shadow-pink-500/30 disabled:opacity-50"
+                {/* Body */}
+                <p className="text-base text-slate-600 mb-6 leading-relaxed">
+                  Don't burn your budget on the wrong hire. Answer a few questions about your idea, timeline, and budget to get an instant hiring strategy.
+                </p>
+
+                {/* Bullet Points */}
+                <ul className="space-y-3 mb-6">
+                  <li className="flex items-center gap-3 text-slate-700">
+                    <span className="text-pink-500 font-bold">✓</span>
+                    Instant analysis of your project scope
+                  </li>
+                  <li className="flex items-center gap-3 text-slate-700">
+                    <span className="text-pink-500 font-bold">✓</span>
+                    Clear recommendation: Agency vs. Freelancer vs. CTO
+                  </li>
+                  <li className="flex items-center gap-3 text-slate-700">
+                    <span className="text-pink-500 font-bold">✓</span>
+                    Actionable next steps to start building today
+                  </li>
+                </ul>
+
+                {/* CTAs */}
+                <div className="flex flex-col gap-3 mb-6">
+                  <a
+                    href="/assessment"
+                    className="bg-pink-500 hover:bg-pink-600 text-white font-bold px-8 py-4 rounded-lg transition-all duration-200 shadow-lg shadow-pink-500/30 text-center"
                   >
-                    {isLoading ? "Sending..." : "Get The Smart Selection Sprint"}
-                  </button>
-                </form>
+                    Get My Free Hiring Roadmap
+                  </a>
+                  <a
+                    href="#how-it-works"
+                    className="border-2 border-slate-300 hover:border-slate-400 text-slate-700 font-bold px-8 py-4 rounded-lg transition-all duration-200 text-center"
+                  >
+                    See how it works
+                  </a>
+                </div>
 
-                {submitted && (
-                  <div className="text-sm text-pink-600 font-medium mb-6">
-                    Check your inbox! The Smart Selection Sprint is on its way.
-                  </div>
-                )}
-
+                {/* Trust Line */}
                 <p className="text-sm text-slate-600">
-                  No spam. No credit card. Unsubscribe anytime.
+                  100% Private • No Credit Card Required
                 </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* BOTTOM SECTION */}
-        <section className="bg-gray-50 py-20 md:py-28">
+        {/* HOW IT WORKS SECTION */}
+        <section id="how-it-works" className="bg-gray-50 py-20 md:py-28">
           <div className="container mx-auto px-6 max-w-6xl">
             <div className="max-w-2xl mx-auto text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-slate-950 mb-4">
-                Get Your Smart Fit Snapshot
+                Get Your Free Hiring Roadmap
               </h2>
               <p className="text-lg text-slate-700">
-                Answer 23 quick questions and get a personalized report showing exactly which developers you need to hire.
+                Answer a few questions about your idea, timeline, and budget. Get an instant, custom hiring strategy.
               </p>
             </div>
 
             {/* CTA Button */}
             <div className="text-center">
               <a href="/assessment" className="inline-block bg-pink-500 hover:bg-pink-600 text-white font-bold px-10 py-5 rounded-lg text-lg transition-all duration-200 shadow-lg shadow-pink-500/30">
-                Start Your Smart Fit Assessment
+                Get My Free Hiring Roadmap
               </a>
               <p className="text-sm text-slate-600 mt-4">
-                Takes about 5 minutes. Results delivered instantly.
+                100% Private • No Credit Card Required
               </p>
             </div>
           </div>

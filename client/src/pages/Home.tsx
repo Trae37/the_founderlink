@@ -62,58 +62,70 @@ export default function Home() {
           </div>
 
           {/* Headline */}
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-8 leading-[1.1]">
-            Don't hire your first developer blind.
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 leading-[1.1]">
+            Stop Guessing How to Hire Your First Developer
           </h1>
 
           {/* Subheadline */}
-          <div className="text-lg md:text-xl text-neutral-600 mb-12 space-y-3 max-w-2xl mx-auto">
-            <p>
-              <span className="font-semibold text-neutral-800">Free 8-10-minute assessment</span> → instant build route + first hire role.
-            </p>
-            <p>
-              <span className="font-semibold text-neutral-800">Optional upgrade</span> → the Hiring Blueprint (4 tailored docs you can hand to a developer).
-            </p>
+          <p className="text-lg md:text-xl text-neutral-600 mb-6 max-w-2xl mx-auto">
+            Get a free, custom build roadmap and role description in 10 minutes. Perfect for non-technical founders.
+          </p>
+
+          {/* Body */}
+          <p className="text-base md:text-lg text-neutral-500 mb-8 max-w-2xl mx-auto">
+            Don't burn your budget on the wrong hire. Answer a few questions about your idea, timeline, and budget to get an instant hiring strategy.
+          </p>
+
+          {/* Bullet Points */}
+          <div className="flex flex-col items-center gap-2 mb-10 text-left max-w-md mx-auto">
+            <div className="flex items-center gap-3 w-full">
+              <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0" />
+              <span className="text-sm md:text-base text-neutral-700">Instant analysis of your project scope</span>
+            </div>
+            <div className="flex items-center gap-3 w-full">
+              <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0" />
+              <span className="text-sm md:text-base text-neutral-700">Clear recommendation: Agency vs. Freelancer vs. CTO</span>
+            </div>
+            <div className="flex items-center gap-3 w-full">
+              <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0" />
+              <span className="text-sm md:text-base text-neutral-700">Actionable next steps to start building today</span>
+            </div>
           </div>
 
-          {/* CTA Button */}
+          {/* CTA Buttons */}
           <div className="flex flex-col items-center gap-4">
-            <Button
-              onClick={() => navigate("/assessment")}
-              size="lg"
-              className="bg-black text-white hover:bg-neutral-800 px-8 py-6 text-base font-medium rounded-sm shadow-lg hover:shadow-xl transition-all active:scale-95 group"
-            >
-              Start my free Smart Fit Snapshot
-              <svg 
-                className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button
+                onClick={() => navigate("/assessment")}
+                size="lg"
+                className="bg-black text-white hover:bg-neutral-800 px-8 py-6 text-base font-medium rounded-sm shadow-lg hover:shadow-xl transition-all active:scale-95 group"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </Button>
-            
-            <div className="flex items-center gap-4 text-xs font-mono text-neutral-500">
-              <span className="flex items-center gap-1.5">
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                Get My Free Hiring Roadmap
+                <svg
+                  className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
-                No card
-              </span>
-              <span className="flex items-center gap-1.5">
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                8-10 mins
-              </span>
-              <span className="flex items-center gap-1.5">
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-                Private
-              </span>
+              </Button>
+              <Button
+                onClick={() => {
+                  document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                size="lg"
+                variant="outline"
+                className="border-neutral-300 text-neutral-700 hover:bg-neutral-100 px-8 py-6 text-base font-medium rounded-sm transition-all active:scale-95"
+              >
+                See how it works
+              </Button>
             </div>
+
+            {/* Trust Line */}
+            <p className="text-sm font-mono text-neutral-500">
+              100% Private • No Credit Card Required
+            </p>
           </div>
 
           {/* The Bridge Visualization */}

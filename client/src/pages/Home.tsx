@@ -73,7 +73,7 @@ export default function Home() {
 
           {/* Body */}
           <p className="text-base md:text-lg text-neutral-500 mb-8 max-w-2xl mx-auto">
-            Don't burn your budget on the wrong hire. Answer a few questions about your idea, timeline, and budget to get an instant hiring strategy.
+            Don't burn your budget on the wrong hire. Answer a few questions about your idea, timeline, and budget to get matched with partnership-minded developers who actually care about your success.
           </p>
 
           {/* Bullet Points */}
@@ -84,7 +84,11 @@ export default function Home() {
             </div>
             <div className="flex items-center gap-3 w-full">
               <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0" />
-              <span className="text-sm md:text-base text-neutral-700">Clear recommendation: Agency vs. Freelancer vs. CTO</span>
+              <span className="text-sm md:text-base text-neutral-700">Clear developer role recommendation for your specific needs</span>
+            </div>
+            <div className="flex items-center gap-3 w-full">
+              <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0" />
+              <span className="text-sm md:text-base text-neutral-700">Match with partnership-minded developers (not freelancers)</span>
             </div>
             <div className="flex items-center gap-3 w-full">
               <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0" />

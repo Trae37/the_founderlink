@@ -1,72 +1,71 @@
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
-import ErrorBoundary from "./components/ErrorBoundary";
-import { ThemeProvider } from "./contexts/ThemeContext";
-import Home from "./pages/Home";
-import VersionB from "./pages/VersionB";
-import VersionC from "./pages/VersionC";
-import VersionD from "./pages/VersionD";
-import VersionE from "./pages/VersionE";
-import Assessment from "./pages/Assessment";
-import Results from "./pages/Results";
-import PaymentSuccess from "./pages/PaymentSuccess";
-import PaymentCancel from "./pages/PaymentCancel";
-import Success from "./pages/Success";
-import AdminDashboard from "./pages/AdminDashboard";
-import AdminMatches from "./pages/AdminMatches";
-import EmailCapture from "./pages/EmailCapture";
-import TestResults from "./pages/TestResults";
-import Privacy from "./pages/Privacy";
-import Terms from "./pages/Terms";
 
+/*
+ * MAINTENANCE MODE — Coming Soon page
+ * To restore the full site, revert this file:
+ *   git checkout main -- client/src/App.tsx
+ */
 
-function Router() {
-  // make sure to consider if you need authentication for certain routes
+function ComingSoon() {
   return (
-    <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/version-b"} component={VersionB} />
-      <Route path={"/version-c"} component={VersionC} />
-      <Route path={"/version-d"} component={VersionD} />
-      <Route path={"/version-e"} component={VersionE} />
-      <Route path={"/email-capture"} component={EmailCapture} />
-      <Route path={"/test"} component={TestResults} />
-      <Route path={"/test-results"} component={TestResults} />
-      <Route path={"/assessment"} component={Assessment} />
-      <Route path={"/results"} component={Results} />
-      <Route path={"/success"} component={Success} />
-      <Route path={"/payment-success"} component={PaymentSuccess} />
-      <Route path={"/payment-cancel"} component={PaymentCancel} />
-      <Route path={"/admin"} component={AdminDashboard} />
-      <Route path={"/admin/matches"} component={AdminMatches} />
-      <Route path={"/privacy"} component={Privacy} />
-      <Route path={"/terms"} component={Terms} />
-      <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
-      <Route component={NotFound} />
-    </Switch>
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)",
+        color: "#f8fafc",
+        fontFamily:
+          '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        textAlign: "center",
+        padding: "2rem",
+      }}
+    >
+      <div style={{ maxWidth: "540px" }}>
+        <h1
+          style={{
+            fontSize: "clamp(2rem, 5vw, 3.5rem)",
+            fontWeight: 700,
+            marginBottom: "1rem",
+            letterSpacing: "-0.02em",
+          }}
+        >
+          Something New Is Coming
+        </h1>
+        <p
+          style={{
+            fontSize: "clamp(1rem, 2.5vw, 1.25rem)",
+            color: "#94a3b8",
+            lineHeight: 1.6,
+            marginBottom: "2rem",
+          }}
+        >
+          We're building something great. Check back soon.
+        </p>
+        <div
+          style={{
+            width: "60px",
+            height: "4px",
+            background: "linear-gradient(90deg, #3b82f6, #8b5cf6)",
+            borderRadius: "2px",
+            margin: "0 auto",
+          }}
+        />
+      </div>
+    </div>
   );
 }
 
 function App() {
   return (
-    <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="light"
-        // switchable
-      >
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-          <Analytics />
-          <SpeedInsights />
-        </TooltipProvider>
-      </ThemeProvider>
-    </ErrorBoundary>
+    <>
+      <ComingSoon />
+      <Analytics />
+      <SpeedInsights />
+    </>
   );
 }
 
